@@ -18,7 +18,7 @@ Mở `http://localhost:3000/?username=ten_tiktok`. Bỏ username để dùng for
 
 ## Deploy Vercel
 
-- Framework Preset: **Other**; Root Directory là thư mục chứa `package.json` này.
+- Framework Preset: **Other**, được ép bằng `"framework": null` trong `vercel.json` để không nhận nhầm script local `npm start` thành Node server. Root Directory là thư mục chứa `package.json` này.
 - Build Command: `npm run build`; Output Directory: `public` (đã khai báo trong `vercel.json`).
 - Chọn Node.js 24.x.
 - Đặt các biến theo `.env.example` trong đúng môi trường Production/Preview:
