@@ -829,8 +829,10 @@ function draw(t) {
   }
   if (glow > .01) { // tượng Phật phát sáng
     const r = 150 + glow * 130 + Math.sin(t * 3) * 12 * glow;
-    ell(ctx, 360, BUD_Y, r, r, rg(ctx, 360, BUD_Y, 10, r, [0, `rgba(255,235,150,${.12 * glow})`], [.3, `rgba(255,235,150,${.42 * glow})`], [1, 'rgba(255,220,120,0)']));
-    if (glow > .6) { // hào quang toả tia ở mức cao nhất
+    if (R.halo_soft) { ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = .6 * glow; ctx.drawImage(R.halo_soft, 360 - r, BUD_Y - r, 2 * r, 2 * r); ctx.restore(); } // hào quang thật
+    else ell(ctx, 360, BUD_Y, r, r, rg(ctx, 360, BUD_Y, 10, r, [0, `rgba(255,235,150,${.12 * glow})`], [.3, `rgba(255,235,150,${.42 * glow})`], [1, 'rgba(255,220,120,0)']));
+    if (glow > .6 && R.halo_lens) { ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = Math.min(1, 2.5 * (glow - .6)); ctx.translate(360, BUD_Y); ctx.rotate(t * .3); ctx.drawImage(R.halo_lens, -340, -340, 680, 680); ctx.restore(); } // tia lens thật
+    if (glow > .6 && !R.halo_lens) { // hào quang toả tia ở mức cao nhất (vẽ bằng code khi chưa có ảnh)
       ctx.translate(360, BUD_Y); ctx.rotate(t * .3); ctx.fillStyle = `rgba(255,240,170,${.4 * (glow - .6)})`;
       for (let i = 0; i < 12; i++) { ctx.rotate(Math.PI / 6); ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-18, -340); ctx.lineTo(18, -340); ctx.fill(); }
     }

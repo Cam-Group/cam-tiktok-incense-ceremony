@@ -16,6 +16,12 @@ const pad2 = n => String(n).padStart(2, '0');
 ['bg_pond.jpg', 'bg_night.jpg', 'bg_storm.jpg', 'bg_ink.jpg', 'bg_buddha.jpg', 'bg_sky.jpg', 'bg_stars.jpg', 'bg_seaclouds.jpg',
  'lotus.png', 'lantern.png', 'pagoda.png', 'crane1.png', 'crane2.png', 'koi.png', 'lion.png', 'bolt_0.jpg', 'bolt_1.jpg', 'bolt_2.jpg',
  ...Array.from({ length: 12 }, (_, i) => `fwa_${pad2(i)}.jpg`), ...Array.from({ length: 12 }, (_, i) => `fwb_${pad2(i)}.jpg`),
+ ...Array.from({ length: 12 }, (_, i) => `dragon_${pad2(i)}.png`), ...Array.from({ length: 12 }, (_, i) => `crane_${pad2(i)}.png`),
+ ...Array.from({ length: 8 }, (_, i) => `koi_${pad2(i)}.png`), ...Array.from({ length: 8 }, (_, i) => `lion_${pad2(i)}.png`),
+ 'wood_0.png', 'wood_1.png', 'wood_2.png', 'wood_3.png', 'wood_4.png', 'rock.png', 'buddha_light.png', 'halo_soft.png', 'halo_lens.png',
+ ...Array.from({ length: 12 }, (_, i) => `loop_${pad2(i)}.jpg`),
+ ...Array.from({ length: 12 }, (_, i) => `crack_${pad2(i)}.jpg`), ...Array.from({ length: 9 }, (_, i) => `flood_${pad2(i)}.jpg`),
+ ...Array.from({ length: 12 }, (_, i) => `rain_${pad2(i)}.png`),
 ].forEach(f => { const im = new Image(); im.onload = () => { R[f.split('.')[0]] = im; }; im.src = 'assets/' + f + '?v=1'; });
 function bgImg(name, dark = 0) { // ảnh nền phủ kín màn hình; trả false nếu chưa có ảnh
   if (!R[name]) return false;
@@ -85,7 +91,16 @@ function hero(p, x, y, k, t) {
 }
 const stand = (sc, t) => sc.ps.forEach(p => drawPerson(p, t));
 const mid = sc => sc.ps.reduce((a, p) => a + p.x, 0) / sc.ps.length;
+let beamCv = null; // canvas tạm để làm mờ ảnh tia sáng ở cấp 10
+// Ảnh nền phủ kín 720×1280, cắt đều hai bên hoặc trên dưới để giữ tỉ lệ
+function cover(im) { const k = Math.max(W / im.width, H / im.height), w = im.width * k, h = im.height * k; ctx.drawImage(im, (W - w) / 2, (H - h) / 2, w, h); }
 function rain(t, x0, x1, y0, y1, a) {
+  const f1 = R[`rain_${pad2(Math.floor(t * 11) % 12)}`], f2 = R[`rain_${pad2((Math.floor(t * 11) + 6) % 12)}`];
+  if (f1 && f2) { // mưa thật: 12 khung vệt mưa trắng trong suốt, lát liền thành lưới; hai lớp lệch nhau để đỡ lặp; cắt theo vùng mưa
+    const S = 362; ctx.save(); ctx.beginPath(); ctx.rect(x0, y0, x1 - x0, y1 - y0); ctx.clip(); ctx.globalAlpha *= cl(a) * .9;
+    for (const [f, o] of [[f1, 0], [f2, S / 2]]) for (let x = Math.floor(x0 / S) * S + o - S; x < x1; x += S) for (let y = Math.floor(y0 / S) * S + o - S; y < y1; y += S) ctx.drawImage(f, x, y, S, S);
+    ctx.restore(); return;
+  }
   ctx.strokeStyle = `rgba(190,215,255,${.55 * a})`; ctx.lineWidth = 2;
   for (let i = 0; i < 70; i++) { const x = x0 + hash(i) * (x1 - x0), y = y0 + ((hash(i + 1) * 900 + t * 1500) % (y1 - y0)); line(ctx, x, y, x - 5, y + 46); }
 }
@@ -127,7 +142,7 @@ function firework(x, y, age, col) {
   ctx.restore();
 }
 function koi(x, y, ang, k = 1) { // cá chép
-  if (pic('koi', x, y, 84 * k, ang + 2.2)) return; // đàn cá chép thật (trong ảnh gốc cá bơi chéo xuống phải)
+  if (pic(`koi_${pad2((performance.now() / 110 | 0) % 8)}`, x, y, 74 * k, ang + Math.PI / 2)) return; // cá chép thật, 8 khung bơi; ảnh gốc đầu hướng lên nên xoay thêm π/2
   ctx.save(); ctx.translate(x, y); ctx.rotate(ang); ctx.scale(k, k);
   ctx.fillStyle = '#ff7a1a'; ctx.beginPath(); ctx.moveTo(-34, 0); ctx.lineTo(-58, -16); ctx.lineTo(-52, 0); ctx.lineTo(-58, 16); ctx.fill();
   ell(ctx, 0, 0, 38, 14, lg(ctx, 0, -14, 0, 14, [0, '#ffb347'], [.5, '#ff6a00'], [1, '#fff1e0']));
@@ -135,7 +150,7 @@ function koi(x, y, ang, k = 1) { // cá chép
   ctx.restore();
 }
 function crane(x, y, k, t) { // hạc vẽ bằng nét mực
-  if (pic((t * 2 | 0) % 2 ? 'crane1' : 'crane2', x, y, 150 * k)) return; // hạc đầu đỏ thật, hai dáng bay
+  if (pic(`crane_${pad2(Math.floor(t * 8) % 12)}`, x, y, 150 * k)) return; // hạc đầu đỏ thật, 12 khung vỗ cánh
   const f = Math.sin(t * 5) * 14;
   ctx.save(); ctx.translate(x, y); ctx.scale(k, k); ctx.strokeStyle = '#1c1a18'; ctx.lineWidth = 4; ctx.lineCap = 'round';
   ctx.beginPath(); ctx.moveTo(-34, -f); ctx.quadraticCurveTo(-14, -12 - f * .3, 0, 0); ctx.quadraticCurveTo(14, -12 - f * .3, 34, -f); ctx.stroke();
@@ -144,7 +159,8 @@ function crane(x, y, k, t) { // hạc vẽ bằng nét mực
 }
 function lion(x, y, k, t, bow = 0) { // lân múa, đầu quay về bên trái
   ctx.save(); ctx.translate(x, y); ctx.scale(k, k);
-  if (R.lion) { ctx.translate(80, -82 + bow * 14); ctx.rotate(-bow * .3); ctx.scale(-1, 1); ctx.drawImage(R.lion, -90, -90, 180, 180); ctx.restore(); return; } // lân thật (ảnh gốc quay phải nên lật lại)
+  const lf = R[`lion_${pad2(Math.floor(t * 8) % 8)}`];
+  if (lf) { ctx.translate(80, -82 + bow * 14); ctx.rotate(-bow * .3); ctx.scale(-1, 1); const s = 180 / Math.max(lf.width, lf.height); ctx.drawImage(lf, -lf.width * s / 2, -lf.height * s / 2, lf.width * s, lf.height * s); ctx.restore(); return; } // lân thật, 8 khung múa
   for (let i = 5; i >= 1; i--) {
     const bx = i * 34, by = -70 + Math.sin(t * 8 + i) * 8;
     ell(ctx, bx, by, 30, 26, i % 2 ? '#e0322a' : '#ffc93a');
@@ -162,6 +178,13 @@ function lion(x, y, k, t, bow = 0) { // lân múa, đầu quay về bên trái
 // Rồng: at(i) trả [x, y] của đốt thứ i (0 = đầu). Vẽ từ đuôi lên đầu để đầu nằm trên.
 function dragon(at, n, size, t, col = ['#fff3b0', '#e0a520', '#8a4a08']) {
   const P = []; for (let i = 0; i <= n; i++) P.push(at(i));
+  const df = R[`dragon_${pad2(Math.floor(t * 8) % 12)}`];
+  if (df) { // rồng thật, 12 khung bay: mũi nằm đúng P[0], thân kéo về phía đuôi (mũi ở 0.99 chiều rộng, 0.61 chiều cao ảnh)
+    const [hx, hy] = P[0], [px, py] = P[1], a = Math.atan2(hy - py, hx - px), w = size * 16, h = w * df.height / df.width;
+    ctx.save(); ctx.translate(hx, hy); ctx.rotate(a); if (Math.cos(a) < 0) ctx.scale(1, -1);
+    ctx.drawImage(df, -w * .991, -h * .614, w, h); ctx.restore();
+    return;
+  }
   for (let i = n; i >= 1; i--) {
     const [x, y] = P[i], r = size * (1 - i / n * .8);
     if (i % 2 === 0) { ctx.fillStyle = '#c0392b'; ctx.beginPath(); ctx.moveTo(x - r * .4, y - r * .8); ctx.lineTo(x, y - r * 1.7); ctx.lineTo(x + r * .4, y - r * .8); ctx.fill(); }
@@ -180,6 +203,9 @@ function dragon(at, n, size, t, col = ['#fff3b0', '#e0a520', '#8a4a08']) {
 }
 // Dáng Phật ngồi thiền, chỉ là hình khối không vẽ mặt. kind: 'gold' = tượng vàng, 'light' = thân ánh sáng. Gốc toạ độ ở đáy.
 function buddha(x, y, k, kind) {
+  if (kind === 'light' && R.buddha_light) { // Phật ánh sáng thật: hình Phật cao 0.77 chiều cao ảnh, chân ở 0.88; vẽ cộng sáng nên nền đen tự mất
+    const s = 738 * k; ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.drawImage(R.buddha_light, x - .491 * s, y - .878 * s, s, s); ctx.restore(); return;
+  }
   ctx.save(); ctx.translate(x, y); ctx.scale(k, k);
   const f = kind === 'gold' ? lg(ctx, 0, -566, 0, 0, [0, '#fff0a8'], [.5, '#e9b534'], [1, '#a86a12']) : 'rgba(255,255,244,.96)';
   ctx.fillStyle = f; ctx.beginPath(); ctx.moveTo(-230, 0); ctx.quadraticCurveTo(-250, -90, -150, -120); ctx.quadraticCurveTo(-190, -230, -150, -320);
@@ -272,13 +298,20 @@ const SCENES = {
   4: { dur: 10, cut: 2.6, glow: .3, shake: s => s > .3 && s < 2.6 ? 4 : 0, start() { tone(60, 1.6, .25, .3, 'sawtooth'); },
     hall(sc, s) {
       const cx = mid(sc), e = sm(.2, 1.6, s);
+      // nứt nền rồi ngập nước: ảnh vết nứt (12 khung) rồi ảnh ngập nước (9 khung), chuyển mờ ở giữa hai ảnh
+      const ck = R[`crack_${pad2(Math.round(sm(.2, 1.2, s) * 11))}`], fl = R[`flood_${pad2(Math.round(sm(1.2, 2.6, s) * 8))}`], f = sm(1.1, 1.35, s);
+      if (ck) { ctx.globalAlpha = 1 - f; cover(ck); }
+      if (fl) { ctx.globalAlpha = f; cover(fl); }
+      ctx.globalAlpha = 1;
       for (let i = 0; i < 9; i++) {
         let x = cx, y = OFFER_Y + 14, a = i / 9 * 6.283 + .3; ctx.beginPath(); ctx.moveTo(x, y);
         for (let k = 1; k <= 8 * e; k++) { a += (hash(i * 9 + k) - .5) * .9; x += Math.cos(a) * 46; y += Math.sin(a) * 18; ctx.lineTo(x, y); }
         ctx.strokeStyle = 'rgba(120,220,255,.7)'; ctx.lineWidth = 7; ctx.stroke(); ctx.strokeStyle = '#06131c'; ctx.lineWidth = 3; ctx.stroke();
       }
-      const wy = H - (H - 420) * sm(1.2, 2.6, s);
-      ctx.fillStyle = lg(ctx, 0, wy, 0, H, [0, 'rgba(150,225,240,.8)'], [1, 'rgba(20,90,130,.92)']); ctx.fillRect(0, wy, W, H - wy);
+      if (!fl) { // thiếu ảnh ngập nước thì vẽ nước dâng bằng code
+        const wy = H - (H - 420) * sm(1.2, 2.6, s);
+        ctx.fillStyle = lg(ctx, 0, wy, 0, H, [0, 'rgba(150,225,240,.8)'], [1, 'rgba(20,90,130,.92)']); ctx.fillRect(0, wy, W, H - wy);
+      }
       flash(sm(2.1, 2.6, s), '190,235,245');
     },
     world(sc, s, t) {
@@ -449,14 +482,27 @@ const SCENES = {
     hall(sc, s, t) {
       const h = sc.ps[0], e = sm(1, 2.8, s);
       roofHole(e, () => { sky([0, '#3b82d6'], [.25, '#bfe3ff']); cloudBlob(260, 90, 260, .9); cloudBlob(500, 170, 220, .9); });
-      if (e > 0) { // nắng rọi qua lỗ thủng
-        ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = lg(ctx, 0, 100, 0, 1000, [0, `rgba(255,250,220,${.4 * e})`], [1, 'rgba(255,250,220,0)']);
-        ctx.beginPath(); ctx.moveTo(360 - 250 * e, 110); ctx.lineTo(360 + 250 * e, 110); ctx.lineTo(h.x + 260, 1000); ctx.lineTo(h.x - 260, 1000); ctx.fill();
-        ctx.globalCompositeOperation = 'source-over';
+      if (e > 0) { // nắng rọi qua lỗ thủng: ảnh tia sáng phủ sáng lên nền, thiếu ảnh thì vẽ chùm sáng bằng code
+        const lp = R[`loop_${pad2(Math.floor(t * 7) % 12)}`];
+        if (lp) { // ảnh tia sáng mờ dần xuống sàn và ra mép, chỉ hiện trong hình chùm sáng cũ
+          beamCv = beamCv || Object.assign(document.createElement('canvas'), { width: W, height: H }); const b = beamCv.getContext('2d');
+          b.globalCompositeOperation = 'source-over'; b.clearRect(0, 0, W, H); b.drawImage(lp, 0, 0, W, H); b.globalCompositeOperation = 'destination-in';
+          let g = b.createLinearGradient(0, 110, 0, 1000); g.addColorStop(0, '#000'); g.addColorStop(1, 'rgba(0,0,0,0)'); b.fillStyle = g; b.fillRect(0, 0, W, H);
+          g = b.createRadialGradient(360, 300, 60, 360, 300, 380); g.addColorStop(0, '#000'); g.addColorStop(1, 'rgba(0,0,0,0)'); b.fillStyle = g; b.fillRect(0, 0, W, H);
+          ctx.save(); ctx.beginPath(); ctx.moveTo(360 - 250 * e, 110); ctx.lineTo(360 + 250 * e, 110); ctx.lineTo(h.x + 260, 1000); ctx.lineTo(h.x - 260, 1000); ctx.closePath(); ctx.clip();
+          ctx.globalCompositeOperation = 'screen'; ctx.globalAlpha = .75 * e; ctx.drawImage(beamCv, 0, 0); ctx.restore();
+        }
+        else {
+          ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = lg(ctx, 0, 100, 0, 1000, [0, `rgba(255,250,220,${.4 * e})`], [1, 'rgba(255,250,220,0)']);
+          ctx.beginPath(); ctx.moveTo(360 - 250 * e, 110); ctx.lineTo(360 + 250 * e, 110); ctx.lineTo(h.x + 260, 1000); ctx.lineTo(h.x - 260, 1000); ctx.fill();
+          ctx.globalCompositeOperation = 'source-over';
+        }
       }
-      for (let i = 0; i < 46; i++) { // xà gỗ và ngói rơi
+      for (let i = 0; i < 46; i++) { // xà gỗ và ngói rơi: 5 mảnh gỗ thật, thiếu ảnh thì vẽ thanh gỗ
         const d = s - hash(i) * 3.4, y = -40 + d * d * 700; if (d < 0 || y > H) continue;
-        ctx.save(); ctx.translate(hash(i + 9) * W, y); ctx.rotate(d * (3 + hash(i + 4) * 6)); ctx.fillStyle = i % 3 ? '#5a3418' : '#8a5a2a';
+        const x = hash(i + 9) * W, rot = d * (3 + hash(i + 4) * 6);
+        if (pic('wood_' + (i % 5), x, y, 90 + hash(i + 5) * 60, rot)) continue;
+        ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.fillStyle = i % 3 ? '#5a3418' : '#8a5a2a';
         ctx.fillRect(-18 - hash(i + 5) * 30, -8, 36 + hash(i + 5) * 60, 16); ctx.restore();
       }
       fill(`rgba(150,120,90,${.25 * sm(.2, 1.5, s) * (1 - sm(3, 4.5, s))})`);
@@ -533,8 +579,11 @@ const SCENES = {
         ell(ctx, 360, 1150 + up * 600, 700, 220, '#3f8f58');
         if (R.bg_seaclouds) ctx.drawImage(R.bg_seaclouds, 0, up * 260, W, H); // núi đá và biển mây thật lùi dần xuống dưới
         for (let i = 0; i < 12; i++) cloudBlob(hash(i) * W, ((hash(i + 3) * 1700 + u * 420) % 1900) - 200, 280 + hash(i + 5) * 200, .85);
-        ctx.fillStyle = lg(ctx, 0, iy, 0, iy + 270, [0, '#6b4a2a'], [1, '#2a1a10']);
-        ctx.beginPath(); ctx.moveTo(140, iy); ctx.lineTo(580, iy); ctx.lineTo(470, iy + 150); ctx.lineTo(380, iy + 270); ctx.lineTo(300, iy + 170); ctx.lineTo(210, iy + 120); ctx.fill();
+        if (R.rock) { const w = 400, h = w * R.rock.height / R.rock.width; ctx.drawImage(R.rock, 360 - w / 2, iy - 30, w, h); } // đảo đá thật dưới chùa
+        else {
+          ctx.fillStyle = lg(ctx, 0, iy, 0, iy + 270, [0, '#6b4a2a'], [1, '#2a1a10']);
+          ctx.beginPath(); ctx.moveTo(140, iy); ctx.lineTo(580, iy); ctx.lineTo(470, iy + 150); ctx.lineTo(380, iy + 270); ctx.lineTo(300, iy + 170); ctx.lineTo(210, iy + 120); ctx.fill();
+        }
         ell(ctx, 360, iy, 222, 22, '#4f9a5c'); pagoda(360, iy, 1.25, '#7a1616', '#2a1408');
         [0, 1].forEach(k => dragon(i => { const a = t * 1.3 + k * 3.14 - i * .17; return [360 + Math.cos(a) * 310, iy - 120 + Math.sin(a) * 110]; }, 18, 22, t, k ? ['#d8ffe0', '#2fa866', '#0c4a2a'] : undefined));
         others.forEach((p, i) => { const a = i / others.length * 6.283 + t * .35; hero(p, 360 + Math.cos(a) * 270, iy + 250 + Math.sin(a) * 50 + Math.sin(t * 2 + i) * 8, .5, t); });

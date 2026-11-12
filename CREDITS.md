@@ -16,6 +16,11 @@ Mọi ảnh đều đã được cắt, đổi cỡ hoặc tách nền so với 
 | `paper.jpg` | Nền bảng lời chúc | Old paper3.jpg | Không rõ | Phạm vi công cộng | https://commons.wikimedia.org/wiki/File:Old_paper3.jpg |
 | `c_L1_*.png`, `c_L2_*.png`, `c_R1_*.png`, `c_R2_*.png` | Bốn nhân vật dâng hương, mỗi nhân vật 8–9 khung động tác (đã tách nền từng khung) | Bốn ảnh động do chủ dự án cung cấp ngày 12/11/2026 | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh | — |
 | `c_L3_*.png`, `c_L4_*.png`, `c_L5_*.png`, `c_R3_*.png`, `c_R4_*.png`, `c_R5_*.png` | Sáu nhân vật dâng hương, mỗi nhân vật 9 khung động tác (ba đi sang trái, ba đi sang phải; đã tách nền từng khung) | Sáu ảnh động do chủ dự án cung cấp ngày 12/11/2026 | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh | — |
+| `dragon_*.png`, `crane_*.png`, `koi_*.png`, `lion_*.png` | Rồng bay (12 khung), hạc bay (12 khung), cá koi (8 khung), đầu lân (8 khung); đã tách nền từng khung | Ảnh động do chủ dự án tạo bằng công cụ AI, ngày 12/11/2026 | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh | — |
+| `wood_0.png`–`wood_4.png`, `rock.png`, `buddha_light.png`, `halo_soft.png`, `halo_lens.png` | Năm mảnh gỗ rơi, đảo đá, Phật bằng ánh sáng, hai hào quang (đã tách nền; ảnh ánh sáng giữ nền đen để vẽ cộng sáng) | Ảnh do chủ dự án tạo bằng công cụ AI, ngày 12/11/2026 | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh | — |
+| `loop_00.jpg`–`loop_11.jpg` | Tia sáng: nắng rọi qua lỗ mái cảnh cấp 10, 12 khung, nén JPEG 720×1280 | Ảnh động do chủ dự án tạo bằng công cụ AI, ngày 12/11/2026 | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh | — |
+| `crack_00.jpg`–`crack_11.jpg`, `flood_00.jpg`–`flood_08.jpg` | Phòng thờ nứt nền và ngập nước (cảnh điện cấp 4), 12 và 9 khung, nén JPEG | Ảnh động do chủ dự án tạo bằng công cụ AI, ngày 12/11/2026 | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh | — |
+| `rain_00.png`–`rain_11.png` | Vệt mưa trắng trong suốt (cảnh mưa cấp 7), 12 khung từ ảnh động mưa | Ảnh động do chủ dự án tạo bằng công cụ AI, ngày 12/11/2026 | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh | — |
 
 ## Lưu ý
 
