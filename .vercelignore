@@ -1,0 +1,8 @@
+node_modules
+server.mjs
+CREDITS.md
+.env*
+!.env.example
+.pi/
+.DS_Store
+*.log

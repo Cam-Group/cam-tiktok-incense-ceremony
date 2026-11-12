@@ -1,0 +1,14 @@
+{
+  "name": "test-live-tiktok",
+  "version": "1.0.0",
+  "description": "",
+  "main": "queue.js",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "build": "node build-config.mjs",
+    "prestart": "npm run build",
+    "start": "node server.mjs"
+  },
+  "keywords": [],
+  "type": "commonjs"
+}
