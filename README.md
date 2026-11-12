@@ -51,9 +51,18 @@ Backend phải cho phép CORS từ domain frontend và proxy phải hỗ trợ S
 - Bộ đếm trạng thái cho biết số lượt bị bỏ do quá tải/hết hạn. Đây là giới hạn animation, không phải giới hạn tổng điểm hay tổng người tặng trong bảng điểm.
 - Bảng điểm, lượt chờ và dấu ấn đều ở RAM của tab; tải lại trang sẽ mất phiên hiện tại.
 
+## Giọng đọc trên điện thoại
+
+Bấm **Bật giọng đọc** để nghe một câu thử trước khi nhận quà. Thao tác này gọi Web Speech trực tiếp từ nút bấm, riêng với âm thanh ting/chuông. Nút và thông báo lỗi luôn hiển thị cả trong chế độ live; **Thử lại giọng đọc** cho phép kiểm tra lại khi bị ngắt.
+
+- Danh sách giọng có thể tải chậm. Khi chưa thấy giọng Việt, frontend vẫn yêu cầu `vi-VN` để hệ thống chọn giọng; không bỏ đọc chỉ vì `getVoices()` đang rỗng.
+- Nếu máy báo thiếu giọng Việt hoặc từ chối quyền đọc, xem thông báo trên trang và thử lại. Frontend không tự cài giọng và không dùng dịch vụ TTS bên ngoài; không bảo đảm mọi thiết bị đều có giọng Việt.
+- Khi đổi ứng dụng, đưa trang vào nền hoặc quay lại từ lịch sử, bấm **Bật giọng đọc** lại. Không tự phát sau khi trang bị gián đoạn.
+- Nếu giọng đọc lỗi hoặc mất callback kết thúc, watchdog giải phóng lượt để hàng đợi không bị kẹt. Game vẫn hoạt động khi không có TTS.
+
 ## Kiểm thử và nghiệm thu
 
-`npm test` chạy test URL/build, hàng đợi, bảng điểm, schema SSE, middleware và tích hợp script game với DOM/canvas/đồng hồ giả. Test dùng dữ liệu giả, không cần kết nối TikTok hay backend thật. Test middleware chỉ kiểm tra logic handler, không thay thế việc Vercel nhận diện và bundle file.
+`npm test` chạy test URL/build, hàng đợi, bảng điểm, schema SSE, middleware, giọng đọc (gesture, giọng tải chậm, lỗi, timeout) và tích hợp script game với DOM/canvas/đồng hồ giả. Test dùng dữ liệu giả, không cần kết nối TikTok hay backend thật. Test middleware chỉ kiểm tra logic handler, không thay thế việc Vercel nhận diện và bundle file.
 
 Trước khi chạy production, kiểm tra trên Vercel Preview:
 

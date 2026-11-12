@@ -49,6 +49,24 @@ test('override server được chuẩn hóa; URL có query/fragment/credentials 
   }
 });
 
+test('nút giọng đọc gọi TTS trực tiếp dù danh sách giọng iPhone còn rỗng', () => {
+  const calls = [];
+  const synthesis = { getVoices: () => [], speak: u => calls.push(u), cancel() {}, addEventListener() {} };
+  class Utterance { constructor(text) { this.text = text; } }
+  const game = createGame({ speech: { synthesis, Utterance } });
+  assert.equal(calls.length, 0);
+  game.click('voice-enable');
+  assert.equal(calls.length, 1, 'phải gọi speak ngay trong thao tác click, không chờ timer hay voiceschanged');
+  assert.equal(calls[0].lang, 'vi-VN');
+  calls[0].onerror({ error: 'not-allowed' });
+  assert.match(game.read("document.getElementById('voice').textContent"), /cho phép|Thử lại/);
+  assert.equal(game.read("document.getElementById('voice-enable').disabled"), false);
+  game.click('voice-enable'); calls[1].onstart(); calls[1].onend();
+  game.hide();
+  assert.equal(game.read("document.getElementById('voice-controls').dataset.state"), 'idle');
+  assert.equal(game.read("document.getElementById('voice-enable').textContent"), 'Bật giọng đọc');
+});
+
 test('cả 12 cấp hoàn tất qua update/draw/frame thật, không kẹt hàng', () => {
   for (let tier = 1; tier <= 12; tier++) {
     const game = createGame({ search: '?ve' });

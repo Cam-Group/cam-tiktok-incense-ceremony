@@ -8,7 +8,7 @@ import { extname } from 'node:path';
 const PORT = Number(process.env.PORT) || 3000;
 const PUBLIC = new URL('./public/', import.meta.url);
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg' };
-const FILES = /^\/(index\.html|queue\.js|comment-limit\.js|levels\.js|scenes\.js|config\.js|backend-url\.js|live-events\.js)$|^\/assets\/[\w-]+\.(jpg|png)$/;
+const FILES = /^\/(index\.html|queue\.js|comment-limit\.js|levels\.js|scenes\.js|config\.js|backend-url\.js|live-events\.js|speech\.js)$|^\/assets\/[\w-]+\.(jpg|png)$/;
 
 http.createServer(async (req, res) => {
   const { pathname } = new URL(req.url, 'http://localhost');

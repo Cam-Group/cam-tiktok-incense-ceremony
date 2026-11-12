@@ -4,25 +4,29 @@ import vm from 'node:vm';
 
 const publicDir = new URL('../../public/', import.meta.url);
 const html = readFileSync(new URL('index.html', publicDir), 'utf8');
-export function createGame({ search = '?ve&username=alice', eventsBase = 'https://backend.example.com/live' } = {}) {
+export function createGame({ search = '?ve&username=alice', eventsBase = 'https://backend.example.com/live', speech } = {}) {
   let now = 0, frame, timerId = 0;
   const timers = new Map(), sources = [], elements = new Map();
+  const windowEvents = new Map(), documentEvents = new Map();
+  const listen = (events, type, callback) => events.set(type, [...(events.get(type) || []), callback]);
   const ctx = new Proxy({
     measureText: () => ({ width: 80 }),
     createLinearGradient: () => ({ addColorStop() {} }),
     createRadialGradient: () => ({ addColorStop() {} }),
   }, { get: (target, key) => target[key] ?? (() => {}) });
-  const element = () => ({ textContent: '', value: '', style: {}, classList: { add() {} },
+  const element = () => ({ textContent: '', value: '', style: {}, dataset: {}, classList: { add() {} },
+    setAttribute(name, value) { this[name] = value; },
     getContext: () => ctx, focus() {}, append() {}, appendChild(child) { return child; }, remove() {} });
   const context = {
     URL, URLSearchParams, console, location: { protocol: 'https:', search },
     history: { replaceState() {} }, navigator: {}, performance: { now: () => now },
+    speechSynthesis: speech?.synthesis, SpeechSynthesisUtterance: speech?.Utterance,
     Date: class extends Date { static now() { return now; } },
-    document: { getElementById(id) {
+    document: { hidden: false, addEventListener: (type, callback) => listen(documentEvents, type, callback), getElementById(id) {
       if (!elements.has(id)) elements.set(id, element());
       return elements.get(id);
     }, createElement: element, body: element(), documentElement: element() },
-    matchMedia: () => ({ matches: false }), addEventListener() {},
+    matchMedia: () => ({ matches: false }), addEventListener: (type, callback) => listen(windowEvents, type, callback),
     requestAnimationFrame(callback) { frame = callback; },
     MutationObserver: class { observe() {} },
     Image: class {}, // Không tải tài nguyên; game dùng đường vẽ fallback.
@@ -43,6 +47,9 @@ export function createGame({ search = '?ve&username=alice', eventsBase = 'https:
   }
   return {
     sources,
+    click: id => elements.get(id)?.onclick?.(),
+    dispatch: (type, event) => { for (const callback of windowEvents.get(type) || []) callback(event); },
+    hide() { context.document.hidden = true; for (const callback of documentEvents.get('visibilitychange') || []) callback(); },
     read: expression => JSON.parse(JSON.stringify(vm.runInContext(expression, context))),
     add: (name, tier, diamonds = 0) => context.addGifter(name, tier, diamonds),
     advance(seconds) {

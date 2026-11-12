@@ -24,7 +24,16 @@
   label { display: block; margin-bottom: 4px; }
   input, select { width: 100%; box-sizing: border-box; padding: 8px; font: inherit; margin-bottom: 8px; }
   button { padding: 8px 12px; font: inherit; cursor: pointer; margin: 0 6px 6px 0; }
-  #voice { color: #ffb38a; }
+  .voice-controls { margin: 16px 0; }
+  #voice-enable { min-height: 44px; font-size: 16px; border: 1px solid #d4a017; border-radius: 6px; background: #8a1416; color: #ffd76a; touch-action: manipulation; }
+  #voice-enable:hover:not(:disabled) { background: #a41b1e; }
+  #voice-enable:focus-visible { outline: 2px solid #ffd76a; outline-offset: 3px; }
+  #voice-enable:disabled { cursor: default; background: #3e2820; color: #e8cfaa; border-color: #9b7940; }
+  #voice { margin: 4px 0 0; color: #f5e6c8; font-size: 14px; overflow-wrap: anywhere; }
+  .voice-controls[data-state="error"] #voice, .voice-controls[data-state="unavailable"] #voice { color: #ffb38a; }
+  body.live .voice-controls { position: fixed; z-index: 2; left: 50%; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); width: min(340px, calc(100vw - 24px)); box-sizing: border-box; margin: 0; padding: 10px 12px; background: rgba(27,15,10,.96); border-radius: 8px; }
+  body.live #voice-enable { width: 100%; margin: 0; }
+  body.live .voice-controls #link { position: static; transform: none; width: auto; max-width: none; margin: 6px 0 0; padding: 0; background: transparent; }
 </style>
 </head>
 <body>
@@ -43,8 +52,11 @@
   </form>
   <p id="status" aria-live="polite"></p>
   <p id="link" role="status"></p>
-  <p id="voice"></p>
-  <p>Trên Chrome, hãy bấm vào trang một lần sau khi mở để trình duyệt cho phép phát giọng đọc.</p>
+  <section id="voice-controls" class="voice-controls" aria-label="Giọng đọc">
+    <button type="button" id="voice-enable" aria-describedby="voice">Bật giọng đọc</button>
+    <p id="voice" role="status" aria-live="polite" aria-atomic="true"></p>
+  </section>
+  <p>Bấm Bật giọng đọc trước khi thử quà. Bạn sẽ nghe một câu thử để kiểm tra giọng tiếng Việt trên máy.</p>
 </aside>
 
 <script src="config.js"></script>
@@ -53,6 +65,7 @@
 <script src="comment-limit.js"></script>
 <script src="live-events.js"></script>
 <script src="levels.js"></script>
+<script src="speech.js"></script>
 <script src="scenes.js"></script>
 <script>
 const MAX_ROWS = 4, PER_ROW = 4, WAIT_MS = 6000; // hàng thiếu người chờ tối đa WAIT_MS rồi vẫn lên
@@ -168,13 +181,14 @@ if (TT_USER) { // đang chạy live: bỏ bảng thử, trạng thái kết nố
   document.body.classList.add('live'); document.body.append(link); link.className = 'toast';
   let hide;
   new MutationObserver(() => { link.style.opacity = 1; clearTimeout(hide); hide = setTimeout(() => { link.style.opacity = 0; }, 6000); }).observe(link, { childList: true, characterData: true, subtree: true });
-  const tap = document.body.appendChild(Object.assign(document.createElement('p'), { className: 'toast tap', textContent: 'Chạm vào màn hình để vào toàn màn hình và bật âm thanh' }));
+  const tap = document.body.appendChild(Object.assign(document.createElement('p'), { className: 'toast tap', textContent: 'Chạm vào cảnh để vào toàn màn hình. Bấm Bật giọng đọc để nghe tên và lời chúc.' }));
   // Trình duyệt chỉ cho vào toàn màn hình và giữ màn hình sáng sau một thao tác của người dùng.
   // Thoát bằng Esc hoặc vuốt; chạm lần nữa thì vào lại.
   const root = document.documentElement, goFull = root.requestFullscreen || root.webkitRequestFullscreen;
   // iPhone không có toàn màn hình cho trang web: nếu chưa mở từ Màn hình chính thì chỉ cách làm
-  if (!goFull) tap.textContent = navigator.standalone ? 'Chạm vào màn hình để bật âm thanh' : 'Để ẩn thanh trình duyệt: bấm Chia sẻ → Thêm vào Màn hình chính, rồi mở từ biểu tượng đó. Chạm để bật âm thanh.';
+  if (!goFull) tap.textContent = navigator.standalone ? 'Bấm Bật giọng đọc để nghe tên và lời chúc.' : 'Bấm Bật giọng đọc để nghe. Để ẩn thanh trình duyệt: Chia sẻ → Thêm vào Màn hình chính.';
   ['pointerdown', 'keydown'].forEach(ev => addEventListener(ev, e => {
+    if (e.target?.closest?.('#voice-controls')) return; // không để fullscreen tiêu thụ thao tác bật giọng đọc
     tap.remove();
     if (e.key === 'Escape') return;
     if (goFull && !(document.fullscreenElement || document.webkitFullscreenElement)) Promise.resolve(goFull.call(root)).catch(() => {});
@@ -200,23 +214,25 @@ else {
 }
 
 // ---------- Giọng đọc ----------
-const viVoice = () => window.speechSynthesis && speechSynthesis.getVoices().find(v => v.lang.replace('_', '-').startsWith('vi'));
-function speak(text, done) {
-  const voice = viVoice();
-  if (!voice) return setTimeout(done, Math.max(5000, text.length * 70)); // không có giọng: vẫn đủ lâu để đọc chữ
-  const u = new SpeechSynthesisUtterance(text);
-  u.voice = voice; u.lang = 'vi-VN'; u.rate = SPEECH_RATE;
-  u.onend = u.onerror = done;
-  setTimeout(done, 8000 + text.length * 150); // Chrome đôi khi không bắn onend
-  window._utter = u;                          // giữ tham chiếu kẻo bị GC giữa chừng
-  speechSynthesis.speak(u);
-}
-function showVoiceStatus() {
-  document.getElementById('voice').textContent = viVoice() ? '' :
-    'Chưa tìm thấy giọng đọc tiếng Việt trên máy — game vẫn chạy nhưng không có tiếng. (macOS: Cài đặt → Trợ năng → Nội dung được đọc → Giọng nói hệ thống → tải giọng Tiếng Việt.)';
-}
-if (window.speechSynthesis) speechSynthesis.onvoiceschanged = showVoiceStatus;
-showVoiceStatus();
+const voiceControls = document.getElementById('voice-controls');
+const voiceButton = document.getElementById('voice-enable');
+const voiceStatus = document.getElementById('voice');
+if (TT_USER) { document.body.append(voiceControls); voiceControls.append(link); } // gom trạng thái để không đè nhau, luôn hiện ngoài aside
+const speech = createSpeechController({
+  synthesis: window.speechSynthesis, Utterance: window.SpeechSynthesisUtterance, rate: SPEECH_RATE,
+  onState: ({ phase, message }) => {
+    voiceControls.dataset.state = phase;
+    voiceControls.setAttribute('aria-busy', String(phase === 'testing'));
+    voiceButton.disabled = phase === 'unavailable' || phase === 'testing';
+    voiceButton.textContent = phase === 'testing' ? 'Đang thử giọng đọc…' :
+      phase === 'unavailable' ? 'Không hỗ trợ giọng đọc' : phase === 'idle' ? 'Bật giọng đọc' : 'Thử lại giọng đọc';
+    voiceStatus.textContent = message;
+  },
+});
+voiceButton.onclick = () => { speech.enable(); audio?.resume(); }; // không await trước enable: giữ thao tác trực tiếp cho iOS
+const speak = (text, done) => speech.speak(text, done);
+document.addEventListener('visibilitychange', () => { if (document.hidden) speech.reset(); });
+addEventListener('pagehide', () => speech.reset());
 
 // ---------- Âm thanh (tổng hợp, không cần file) ----------
 let audio;
