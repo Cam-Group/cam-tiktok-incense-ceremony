@@ -813,6 +813,9 @@ function drawFairy(x, y, t, flip, pal) { // tiên nữ cưỡi mây, gốc toạ
 function draw(t) {
   ctx.save(); if (shake) ctx.translate(rnd(-shake, shake), rnd(-shake, shake));
   ctx.drawImage(bg, 0, 0);
+  // cảnh tự vẽ nền lúc nứt và ngập (cờ base): vẽ trước để đèn, bụi và người nằm trên
+  const paintFirst = scene && SCENES[scene.lvl].base && scene.s < SCENES[scene.lvl].cut;
+  if (paintFirst) drawScene(scene, t);
 
   ctx.save(); ctx.globalCompositeOperation = 'lighter';
   if (REAL) [[158, 462, 60], [542, 462, 60], [120, 190, 95], [606, 182, 95]].forEach(([x, y, r0], i) => { // đèn dầu và đèn trần trong ảnh lung linh
@@ -912,7 +915,7 @@ function draw(t) {
     ctx.fillStyle = `rgb(${p.col})`; ctx.fillText(p.text, p.x, p.y); ctx.globalAlpha = 1;
   });
 
-  if (scene) drawScene(scene, t);
+  if (scene && !paintFirst) drawScene(scene, t);
   ctx.restore();
 
   if (banner) { // cuốn thư đọc tên và lời chúc, trượt xuống khi hiện

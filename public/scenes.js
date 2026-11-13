@@ -248,13 +248,9 @@ const SCENES = {
     } },
 
   // 4 · Nền gạch nứt, nước trào lên → hồ sen, cá chép nhảy quanh
-  4: { dur: 10, cut: 2.6, glow: .3, shake: s => s > .3 && s < 2.6 ? 4 : 0, start() { tone(60, 1.6, .25, .3, 'sawtooth'); },
+  4: { dur: 10, cut: 2.6, glow: .3, base: true, shake: s => s > .3 && s < 2.6 ? 4 : 0, start() { tone(60, 1.6, .25, .3, 'sawtooth'); },
     hall(sc, s) {
-      // sàn nứt lan dần rồi nước dâng: 7 ảnh cùng nền chánh điện, mỗi ảnh hiện dần lên trên ảnh trước
-      const H7 = [['hall_crack_00', .2], ['hall_crack_01', .45], ['hall_crack_02', .7], ['hall_crack_03', 1], ['hall_flood_00', 1.3], ['hall_flood_01', 1.8], ['hall_flood_02', 2.2]];
-      let below = 0; // ảnh đã phủ kín màn: các ảnh dưới bị che nên không cần vẽ
-      H7.forEach(([name, t0], k) => { if (R[name] && s >= t0 + .35) below = k; });
-      H7.forEach(([name, t0], k) => { const im = R[name], a = sm(t0, t0 + .35, s); if (k >= below && im && a > 0) { ctx.globalAlpha = a; cover(im); } });
+      hallFrames(s).forEach(([name, a]) => { ctx.globalAlpha = a; cover(R[name]); });
       ctx.globalAlpha = 1;
       flash(sm(2.1, 2.6, s), '190,235,245');
     },
@@ -283,7 +279,7 @@ const SCENES = {
       for (let i = 0; i < 110; i++) { const kk = .2 + hash(i) * .6; lantern(hash(i + 5) * W + Math.sin(t * .6 + i) * 18, H + 80 - ((u * (40 + kk * 90) + hash(i + 3) * 1500) % 1500), kk, .9); }
       sc.ps.forEach((p, i) => { // đèn trời lớn mang tên từng người
         const lx = W * (i + 1) / (n + 1) + Math.sin(t * .8 + i) * 16;
-        lantern(lx, ly, k); bigName(p.name, lx, ly + 50 * k, Math.max(26, 44 * k / 3), 1, n > 1 ? W / (n + 1) - 8 : 680);
+        lantern(lx, ly, k); bigName(p.name, lx, ly + 50 * k, Math.max(26, 44 * k / 3), 1, n > 1 ? W / (n + 1) * .72 : 680);
       });
       heroes(sc, 360, 1255, 1.05, t);
       flash(1 - sm(2.8, 3.6, s), '10,14,50');
@@ -516,6 +512,15 @@ function drawMarks(t) {
 function startScene(lvl, ps) {
   SCENES[lvl].start?.();
   return { lvl, s: 0, ps, home: false };
+}
+// Cảnh 4: sàn nứt lan dần rồi nước dâng. Mỗi ảnh hiện dần trong .35 giây lên trên ảnh trước
+const HALL_STEPS = [['hall_crack_00', .2], ['hall_crack_01', .45], ['hall_crack_02', .7], ['hall_crack_03', 1], ['hall_flood_00', 1.3], ['hall_flood_01', 1.8], ['hall_flood_02', 2.2]];
+function hallFrames(s) { // [tên ảnh, độ mờ] của các ảnh cần vẽ lúc s
+  let below = 0; // ảnh đã phủ kín màn: các ảnh dưới bị che nên không cần vẽ
+  HALL_STEPS.forEach(([name, t0], k) => { if (R[name] && s >= t0 + .35) below = k; });
+  const out = [];
+  HALL_STEPS.forEach(([name, t0], k) => { const a = sm(t0, t0 + .35, s); if (k >= below && R[name] && a > 0) out.push([name, a]); });
+  return out;
 }
 const backAt = d => d.cut < 1e9 ? d.dur - FOG_S : 1e9; // lúc sương mù bắt đầu phủ
 
