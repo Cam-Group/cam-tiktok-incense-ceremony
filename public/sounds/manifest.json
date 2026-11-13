@@ -1,0 +1,378 @@
+{
+ "amb_rain": {
+  "files": [
+   "amb_rain.mp3"
+  ],
+  "gain": 0.45,
+  "loop": true
+ },
+ "thunder": {
+  "files": [
+   "thunder_00.mp3"
+  ],
+  "gain": 0.8,
+  "loop": false
+ },
+ "amb_wind": {
+  "files": [
+   "amb_wind.mp3"
+  ],
+  "gain": 0.3,
+  "loop": true
+ },
+ "amb_frogs": {
+  "files": [
+   "amb_frogs.mp3"
+  ],
+  "gain": 0.3,
+  "loop": true
+ },
+ "amb_festival": {
+  "files": [
+   "amb_festival.mp3"
+  ],
+  "gain": 0.3,
+  "loop": true
+ },
+ "applause": {
+  "files": [
+   "applause_00.mp3",
+   "applause_01.mp3"
+  ],
+  "gain": 0.6,
+  "loop": false
+ },
+ "splash": {
+  "files": [
+   "splash_00.mp3",
+   "splash_01.mp3",
+   "splash_02.mp3",
+   "splash_03.mp3",
+   "splash_04.mp3",
+   "splash_05.mp3"
+  ],
+  "gain": 0.6,
+  "loop": false
+ },
+ "bell": {
+  "files": [
+   "bell_00.mp3",
+   "bell_01.mp3",
+   "bell_02.mp3"
+  ],
+  "gain": 0.6,
+  "loop": false
+ },
+ "gong": {
+  "files": [
+   "gong_00.mp3"
+  ],
+  "gain": 0.7,
+  "loop": false
+ },
+ "taiko": {
+  "files": [
+   "taiko_00.mp3",
+   "taiko_01.mp3",
+   "taiko_02.mp3",
+   "taiko_03.mp3"
+  ],
+  "gain": 0.7,
+  "loop": false
+ },
+ "firework_burst": {
+  "files": [
+   "firework_burst_00.mp3",
+   "firework_burst_01.mp3",
+   "firework_burst_02.mp3"
+  ],
+  "gain": 0.6,
+  "loop": false
+ },
+ "scream": {
+  "files": [
+   "scream_00.mp3",
+   "scream_01.mp3",
+   "scream_02.mp3"
+  ],
+  "gain": 0.6,
+  "loop": false
+ },
+ "step_church": {
+  "files": [
+   "step_church_00.mp3",
+   "step_church_01.mp3",
+   "step_church_02.mp3",
+   "step_church_03.mp3"
+  ],
+  "gain": 0.6,
+  "loop": false
+ },
+ "amb_hall": {
+  "files": [
+   "amb_hall.mp3"
+  ],
+  "gain": 0.25,
+  "loop": true
+ },
+ "amb_ink": {
+  "files": [
+   "amb_ink.mp3"
+  ],
+  "gain": 0.35,
+  "loop": true
+ },
+ "amb_buddha": {
+  "files": [
+   "amb_buddha.mp3"
+  ],
+  "gain": 0.35,
+  "loop": true
+ },
+ "amb_realm": {
+  "files": [
+   "amb_realm.mp3"
+  ],
+  "gain": 0.35,
+  "loop": true
+ },
+ "amb_night": {
+  "files": [
+   "amb_night.mp3"
+  ],
+  "gain": 0.4,
+  "loop": true
+ },
+ "amb_pond": {
+  "files": [
+   "amb_pond.mp3"
+  ],
+  "gain": 0.35,
+  "loop": true
+ },
+ "amb_sky": {
+  "files": [
+   "amb_sky.mp3"
+  ],
+  "gain": 0.35,
+  "loop": true
+ },
+ "step_wood": {
+  "files": [
+   "step_wood_00.mp3",
+   "step_wood_01.mp3",
+   "step_wood_02.mp3"
+  ],
+  "gain": 0.7,
+  "loop": false
+ },
+ "step_water": {
+  "files": [
+   "step_water_00.mp3",
+   "step_water_01.mp3"
+  ],
+  "gain": 0.6,
+  "loop": false
+ },
+ "debris": {
+  "files": [
+   "debris_00.mp3",
+   "debris_01.mp3",
+   "debris_02.mp3"
+  ],
+  "gain": 0.7,
+  "loop": false
+ },
+ "collapse": {
+  "files": [
+   "collapse_00.mp3"
+  ],
+  "gain": 0.9,
+  "loop": false
+ },
+ "creak": {
+  "files": [
+   "creak_00.mp3",
+   "creak_01.mp3"
+  ],
+  "gain": 0.5,
+  "loop": false
+ },
+ "crack": {
+  "files": [
+   "crack_00.mp3",
+   "crack_01.mp3"
+  ],
+  "gain": 0.6,
+  "loop": false
+ },
+ "drip": {
+  "files": [
+   "drip_00.mp3",
+   "drip_01.mp3",
+   "drip_02.mp3",
+   "drip_03.mp3"
+  ],
+  "gain": 0.4,
+  "loop": false
+ },
+ "flood_rise": {
+  "files": [
+   "flood_rise.mp3"
+  ],
+  "gain": 0.5,
+  "loop": false
+ },
+ "dragon_roar": {
+  "files": [
+   "dragon_roar_00.mp3",
+   "dragon_roar_01.mp3"
+  ],
+  "gain": 0.9,
+  "loop": false
+ },
+ "dragon_wings": {
+  "files": [
+   "dragon_wings.mp3"
+  ],
+  "gain": 0.6,
+  "loop": false
+ },
+ "wind_gust": {
+  "files": [
+   "wind_gust_00.mp3",
+   "wind_gust_01.mp3"
+  ],
+  "gain": 0.5,
+  "loop": false
+ },
+ "whoosh": {
+  "files": [
+   "whoosh_00.mp3",
+   "whoosh_01.mp3"
+  ],
+  "gain": 0.5,
+  "loop": false
+ },
+ "fog": {
+  "files": [
+   "fog.mp3"
+  ],
+  "gain": 0.5,
+  "loop": false
+ },
+ "time_stop": {
+  "files": [
+   "time_stop.mp3"
+  ],
+  "gain": 0.6,
+  "loop": false
+ },
+ "ink": {
+  "files": [
+   "ink.mp3"
+  ],
+  "gain": 0.4,
+  "loop": false
+ },
+ "incense": {
+  "files": [
+   "incense.mp3"
+  ],
+  "gain": 0.6,
+  "loop": false
+ },
+ "candle": {
+  "files": [
+   "candle_00.mp3",
+   "candle_01.mp3",
+   "candle_02.mp3"
+  ],
+  "gain": 0.25,
+  "loop": false
+ },
+ "lantern": {
+  "files": [
+   "lantern_00.mp3",
+   "lantern_01.mp3"
+  ],
+  "gain": 0.4,
+  "loop": false
+ },
+ "petal": {
+  "files": [
+   "petal_00.mp3",
+   "petal_01.mp3"
+  ],
+  "gain": 0.3,
+  "loop": false
+ },
+ "gold_dust": {
+  "files": [
+   "gold_dust.mp3"
+  ],
+  "gain": 0.25,
+  "loop": false
+ },
+ "chime": {
+  "files": [
+   "chime_00.mp3",
+   "chime_01.mp3",
+   "chime_02.mp3"
+  ],
+  "gain": 0.4,
+  "loop": false
+ },
+ "gift": {
+  "files": [
+   "gift.mp3"
+  ],
+  "gain": 0.45,
+  "loop": false
+ },
+ "bow": {
+  "files": [
+   "bow_00.mp3",
+   "bow_01.mp3"
+  ],
+  "gain": 0.5,
+  "loop": false
+ },
+ "uproot": {
+  "files": [
+   "uproot.mp3"
+  ],
+  "gain": 0.7,
+  "loop": false
+ },
+ "radiance": {
+  "files": [
+   "radiance.mp3"
+  ],
+  "gain": 0.5,
+  "loop": false
+ },
+ "lion_drum": {
+  "files": [
+   "lion_drum_00.mp3",
+   "lion_drum_01.mp3"
+  ],
+  "gain": 0.6,
+  "loop": false
+ },
+ "firework_launch": {
+  "files": [
+   "firework_launch_00.mp3",
+   "firework_launch_01.mp3"
+  ],
+  "gain": 0.4,
+  "loop": false
+ },
+ "boom": {
+  "files": [
+   "boom.mp3"
+  ],
+  "gain": 0.8,
+  "loop": false
+ }
+}

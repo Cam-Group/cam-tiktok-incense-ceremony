@@ -61,6 +61,15 @@ Giọng đọc **mặc định bật và không có nút tắt**. Trình duyệt
 - Khi đổi ứng dụng, đưa trang vào nền hoặc quay lại từ lịch sử, trình duyệt ngắt giọng đọc; chạm một lần vào trang là bật lại. Không tự phát sau khi trang bị gián đoạn.
 - Nếu giọng đọc lỗi hoặc mất callback kết thúc, watchdog giải phóng lượt để hàng đợi không bị kẹt. Game vẫn hoạt động khi không có TTS.
 
+## Âm thanh
+
+Âm thanh nằm trong `public/sounds/` (mẫu MP3 và `manifest.json`), phát bằng Web Audio. `sound.js` là engine; `sound-cues.js` ghi âm nào phát vào giây nào của từng cảnh. Bước chân lấy theo quãng người đi; vị trí trái/phải và xa/gần theo chỗ đứng trên màn hình.
+
+- Mở khoá bằng cú chạm đầu tiên, giống giọng đọc. Không có nút tắt.
+- Không có Web Audio hoặc không tải được file thì game vẫn chạy, chỉ im lặng.
+- Chỉnh âm: đổi `gain`, `loop` hoặc danh sách file trong `manifest.json`; đổi giây phát trong `sound-cues.js`.
+- `tools/make_audio.py` tạo lại toàn bộ `public/sounds/`. Cần `AUDIO_SRC` trỏ tới thư mục chứa các mẫu gốc từ Commons (xem CREDITS.md) và cài `pip install numpy scipy soundfile av`.
+
 ## Kiểm thử và nghiệm thu
 
 `npm test` chạy test URL/build, hàng đợi, bảng điểm, schema SSE, middleware, giọng đọc (gesture, giọng tải chậm, lỗi, timeout) và tích hợp script game với DOM/canvas/đồng hồ giả. Test dùng dữ liệu giả, không cần kết nối TikTok hay backend thật. Test middleware chỉ kiểm tra logic handler, không thay thế việc Vercel nhận diện và bundle file.

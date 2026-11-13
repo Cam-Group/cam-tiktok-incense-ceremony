@@ -4,13 +4,14 @@
 import http from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { extname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const PORT = Number(process.env.PORT) || 3000;
 const PUBLIC = new URL('./public/', import.meta.url);
-const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg' };
-const FILES = /^\/(index\.html|queue\.js|comment-limit\.js|levels\.js|scenes\.js|config\.js|backend-url\.js|live-events\.js|speech\.js)$|^\/assets\/[\w-]+\.(jpg|png)$/;
+export const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.mp3': 'audio/mpeg', '.json': 'application/json; charset=utf-8' };
+export const FILES = /^\/(index\.html|queue\.js|comment-limit\.js|levels\.js|scenes\.js|config\.js|backend-url\.js|live-events\.js|speech\.js|sound\.js|sound-cues\.js)$|^\/assets\/[\w-]+\.(jpg|png)$|^\/sounds\/[\w-]+\.(mp3|json)$/;
 
-http.createServer(async (req, res) => {
+const server = http.createServer(async (req, res) => {
   const { pathname } = new URL(req.url, 'http://localhost');
   if (pathname !== '/' && !FILES.test(pathname)) return res.writeHead(404).end();
   const file = pathname === '/' ? 'index.html' : pathname.slice(1);
@@ -19,4 +20,6 @@ http.createServer(async (req, res) => {
     res.writeHead(200, { 'Content-Type': TYPES[extname(file)], 'Cache-Control': 'no-cache' });
     res.end(data);
   } catch { res.writeHead(404).end(); }
-}).listen(PORT, '127.0.0.1', () => console.log(`Game: http://localhost:${PORT}/?username=ten_tiktok`));
+});
+// Chỉ mở cổng khi chạy trực tiếp (npm start); test import chỉ cần FILES và TYPES.
+if (process.argv[1] === fileURLToPath(import.meta.url)) server.listen(PORT, '127.0.0.1', () => console.log(`Game: http://localhost:${PORT}/?username=ten_tiktok`));

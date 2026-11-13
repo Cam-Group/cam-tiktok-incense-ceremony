@@ -248,7 +248,7 @@ const SCENES = {
     } },
 
   // 4 · Nền gạch nứt, nước trào lên → hồ sen, cá chép nhảy quanh
-  4: { dur: 10, cut: 2.6, glow: .3, base: true, shake: s => s > .3 && s < 2.6 ? 4 : 0, start() { tone(60, 1.6, .25, .3, 'sawtooth'); },
+  4: { dur: 10, cut: 2.6, glow: .3, base: true, shake: s => s > .3 && s < 2.6 ? 4 : 0,
     hall(sc, s) {
       hallFrames(s).forEach(([name, a]) => { ctx.globalAlpha = a; cover(R[name]); });
       ctx.globalAlpha = 1;
@@ -287,7 +287,7 @@ const SCENES = {
 
   // 6 · Trống tự đánh, hai bức tường mở ra như cánh cổng → lễ hội: pháo hoa, lân chạy vào cúi chào
   6: { dur: 11, cut: 1.6, glow: .3, shake: s => s < 1.6 && (s * 4 % 1) < .3 ? 6 : 0,
-    start() { for (let i = 0; i < 7; i++) tone(75, .22, .3, i / 4); for (let i = 0; i < 20; i++) tone(i % 4 === 3 ? 110 : 75, .2, .22, 2 + i * .42); },
+
     hall(sc, s) { light('halo_soft', 360, 640, 10, 760, sm(.4, 1.6, s)); }, // khe sáng giữa hai bức tường
     world(sc, s, t) {
       const u = s - 1.6, e = sm(1.6, 3, s);
@@ -306,7 +306,7 @@ const SCENES = {
     } },
 
   // 7 · Sét đánh thủng mái, mưa đổ qua lỗ thủng, cá chép bơi ngược dòng mưa → vượt mây hoá rồng
-  7: { dur: 12, cut: 4.6, glow: .2, shake: s => s > .8 && s < 1.6 ? 10 : 0, start() { tone(45, 2.2, .3, .8, 'sawtooth'); tone(900, .15, .2, .8, 'square'); },
+  7: { dur: 12, cut: 4.6, glow: .2, shake: s => s > .8 && s < 1.6 ? 10 : 0,
     hall(sc, s, t) {
       fill(`rgba(0,0,25,${.5 * sm(0, .6, s)})`);
       roofHole(sm(.9, 1.7, s) * .62, () => bgImg('bg_storm', 0, -600)); // nhìn qua lỗ thấy mây giông (đẩy ảnh lên để lọt đúng phần mây)
@@ -336,7 +336,7 @@ const SCENES = {
     } },
 
   // 8 · Thời gian ngừng, màu rút hết, bức tranh mở ra nuốt cả điện → thế giới thuỷ mặc
-  8: { dur: 12, cut: 3.2, glow: 0, start() { tone(1568, 2.5, .05); },
+  8: { dur: 12, cut: 3.2, glow: 0,
     hall(sc, s, t) {
       ctx.globalCompositeOperation = 'saturation'; fill(`rgba(128,128,128,${sm(0, 1, s)})`); ctx.globalCompositeOperation = 'source-over';
       if (s <= 1.3) return;
@@ -363,7 +363,7 @@ const SCENES = {
     } },
 
   // 9 · Tượng Phật bừng hào quang chói loà → Đại Phật trên đỉnh núi, người tặng đứng bên tượng
-  9: { dur: 12, cut: 2.8, glow: 1, shake: s => s > .4 && s < 2.8 ? 2 + 5 * sm(.4, 2.8, s) : 0, start() { tone(55, 2.6, .28, .3, 'sawtooth'); },
+  9: { dur: 12, cut: 2.8, glow: 1, shake: s => s > .4 && s < 2.8 ? 2 + 5 * sm(.4, 2.8, s) : 0,
     hall(sc, s, t) {
       const e = sm(.3, 2.4, s);
       halo(360, BUD_Y, 60 + 420 * e, .9); light('halo_lens', 360, BUD_Y, 80 + 560 * e, 80 + 560 * e, .6 + .3 * Math.sin(t * 9), t * .6); // hào quang thật toả ra từ tượng
@@ -380,7 +380,7 @@ const SCENES = {
 
   // 10 · Trần nhà sập, mọi người bỏ chạy, rồng vàng chui qua lỗ thủng → cưỡi rồng trên chín tầng mây
   10: { dur: 14, cut: 5.6, glow: .4, flee: true, shake: s => s < 5.6 ? 3 + 9 * sm(0, 2, s) * (1 - sm(4.8, 5.6, s)) : 0,
-    start() { tone(40, 4.5, .32, 0, 'sawtooth'); for (let i = 0; i < 10; i++) tone(60 + hash(i) * 50, .3, .25, .4 + i * .35, 'square'); },
+
     hall(sc, s, t) {
       const e = sm(1, 2.8, s), lp = R[`loop_${pad2(Math.floor(t * 7) % 12)}`];
       roofHole(e, () => bgImg('bg_sky'));
@@ -409,7 +409,7 @@ const SCENES = {
     } },
 
   // 11 · Người tặng phát hào quang, bay vút xuyên mái → qua mây, qua trời sao → diện kiến Phật Tổ
-  11: { dur: 15, cut: 3.6, glow: 1, shake: s => s < 3.6 ? 2 * sm(1, 3, s) : 0, start() { chime(); tone(220, 3.4, .08, .2); tone(330, 3.2, .06, .4); },
+  11: { dur: 15, cut: 3.6, glow: 1, shake: s => s < 3.6 ? 2 * sm(1, 3, s) : 0,
     update(sc, s) { if (s < 3.6) sc.ps.forEach(p => { p.y = p.ty = OFFER_Y - 880 * Math.pow(sm(1.4, 3.6, s), 2); }); },
     hall(sc, s) {
       const e = sm(0, 1.4, s);
@@ -441,10 +441,7 @@ const SCENES = {
 
   // 12 · Cả điện tan thành nghìn cánh hoa, ngôi chùa nhổ khỏi mặt đất bay lên trời, mọi người cùng bay theo → cõi Phật
   12: { dur: 20, cut: 3.2, glow: 1, shake: s => s < 3.2 ? 4 + 8 * sm(0, 3, s) : 0,
-    start() {
-      chime(); bell(); tone(40, 3, .3, 0, 'sawtooth'); for (let i = 0; i < 24; i++) tone(i % 4 ? 75 : 110, .2, .22, 3.4 + i * .4);
-      const pick = [...FAIRY_IMGS].sort(() => Math.random() - .5); FAIRY[0].img = pick[0]; FAIRY[1].img = pick[1] || pick[0];
-    },
+
     hall(sc, s, t) {
       const e = sm(0, 3, s);
       for (let i = 0; i < 220 * e; i++) { const a = t * (1 + hash(i)) + i, r = 60 + hash(i + 1) * 700 * e; petalPic(360 + Math.cos(a) * r, 640 + Math.sin(a) * r * 1.5, a * 2, 1.3); }
@@ -509,9 +506,16 @@ function drawMarks(t) {
 }
 
 // ---------- Điều khiển màn diễn ----------
+// Âm thanh theo cảnh (sound-cues.js): tới đúng giây nào thì phát âm hoặc đổi lớp nền ở giây đó
+function fireCues(sc, from, to) {
+  const c = SCENE_SOUND[sc.lvl] || {};
+  (c.cues || []).forEach(([t, name, opt]) => { if (t > from && t <= to) SOUND.play(name, opt); });
+  (c.amb || []).forEach(([t, names]) => { if (t > from && t <= to) SOUND.setLayers(names, 1.5); });
+}
 function startScene(lvl, ps) {
-  SCENES[lvl].start?.();
-  return { lvl, s: 0, ps, home: false };
+  const sc = { lvl, s: 0, ps, home: false };
+  fireCues(sc, -1, 0); // âm ở giây 0 phát ngay khi cảnh bắt đầu
+  return sc;
 }
 // Cảnh 4: sàn nứt lan dần rồi nước dâng. Mỗi ảnh hiện dần trong .35 giây lên trên ảnh trước
 const HALL_STEPS = [['hall_crack_00', .2], ['hall_crack_01', .45], ['hall_crack_02', .7], ['hall_crack_03', 1], ['hall_flood_00', 1.3], ['hall_flood_01', 1.8], ['hall_flood_02', 2.2]];
@@ -526,8 +530,11 @@ const backAt = d => d.cut < 1e9 ? d.dur - FOG_S : 1e9; // lúc sương mù bắt
 
 // Gọi mỗi khung hình. Trả true khi màn diễn kết thúc. Đặt shake (rung) và flee (mọi người bỏ chạy) cho index.html.
 function tickScene(sc, dt) {
-  const d = SCENES[sc.lvl];
+  const d = SCENES[sc.lvl], prev = sc.s;
   sc.s += dt;
+  fireCues(sc, prev, sc.s);
+  if (prev < d.cut && sc.s >= d.cut) SOUND.play('whoosh'); // đổi môi trường: cắt sang cảnh mới
+  if (prev < backAt(d) && sc.s >= backAt(d)) SOUND.play('fog'); // sương mù bắt đầu phủ
   d.update?.(sc, sc.s);
   if (sc.s >= backAt(d) + FOG_S / 2 && !sc.home) { sc.home = true; leaveMark(sc); sc.ps.forEach(p => { p.y = p.ty = OFFER_Y; }); } // sương phủ kín: đưa người về chỗ cũ
   const done = sc.s >= d.dur;

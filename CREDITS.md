@@ -107,3 +107,28 @@ Lấy từ Wikimedia Commons, đã cắt, đổi cỡ hoặc tách nền.
 | File | Dùng làm | Tên gốc | Tác giả | Giấy phép | Trang gốc |
 |---|---|---|---|---|---|
 | `hall_crack_00`–`hall_crack_03`, `hall_flood_00`–`hall_flood_02` | Sàn nứt lan dần rồi nước dâng, cảnh 4. Dựng từ nền chánh điện (`hall.jpg` đã nối sàn), 720×1280, nén JPEG | Nền: `hall.jpg`. Vết nứt: "Cracked concrete - Preview (Dimitrios Savva via Poly Haven.webp" | Phương Huy (nền); Dimitrios Savva qua Poly Haven (vết nứt) | CC BY-SA 4.0 (khung dựng từ `hall.jpg`); vết nứt CC0 | https://commons.wikimedia.org/wiki/File:Cracked_concrete_-_Preview_(Dimitrios_Savva_via_Poly_Haven.webp ; https://polyhaven.com/a/cracked_concrete |
+
+## Âm thanh (thêm ngày 14/11/2026)
+
+Mẫu thu sẵn lấy từ Wikimedia Commons, đã cắt, lặp vòng hoặc đổi cao độ cho hợp cảnh. Các âm còn lại tổng hợp bằng `tools/make_audio.py`, không dùng mẫu ngoài. Tên gốc trong bảng là tên file cần đặt trong thư mục `AUDIO_SRC` khi chạy lại script.
+
+| File (trong `public/sounds/`) | Dùng làm | Tên gốc trên Commons | Tác giả | Giấy phép | Trang gốc |
+|---|---|---|---|---|---|
+| `amb_rain.mp3` | Mưa, nền cảnh 7 | Listening to Raindrops (1035382 - heavy loop).mp3 | NASA | Public domain | https://commons.wikimedia.org/wiki/File:Listening_to_Raindrops_(1035382_-_heavy_loop).mp3 |
+| `thunder_00.mp3` | Sét đánh, cảnh 7 | Nosferatu thunderclap - Richard Humphries.wav | Richard Humphries | CC BY 4.0 | https://commons.wikimedia.org/wiki/File:Nosferatu_thunderclap_-_Richard_Humphries.wav |
+| `amb_wind.mp3` | Gió, nền cảnh 10 và 12 | Howling wind.ogg | Tvabutzku1234 | CC0 | https://commons.wikimedia.org/wiki/File:Howling_wind.ogg |
+| `applause_00.mp3`, `applause_01.mp3` | Vỗ tay, cảnh 6 | Applause i.ogg; Slow starting applause.ogg | thore; stephan | Public domain | https://commons.wikimedia.org/wiki/File:Applause_i.ogg ; https://commons.wikimedia.org/wiki/File:Slow_starting_applause.ogg |
+| `amb_festival.mp3` | Đám đông hò reo, cảnh 6 | Street parade carnival people yelling kamelle kamelle.ogg | stephan | Public domain | https://commons.wikimedia.org/wiki/File:Street_parade_carnival_people_yelling_kamelle_kamelle.ogg |
+| `amb_frogs.mp3` | Ếch kêu, hồ sen cảnh 4 | Night Chorus of Frogs and Toads in Niger Delta.ogg | ElemePodcast | CC BY 4.0 | https://commons.wikimedia.org/wiki/File:Night_Chorus_of_Frogs_and_Toads_in_Niger_Delta.ogg |
+| `splash_00`–`splash_05` | Cá nhảy, nước bắn | Bathtub water splashes.ogg | gradha | Public domain | https://commons.wikimedia.org/wiki/File:Bathtub_water_splashes.ogg |
+| `bell_00`–`bell_02` | Chuông chùa, quà được nhận | Gong or bell vibrant (short).ogg; Gong or bell vibrant.ogg | PDSounds; stephan | CC0; Public domain | https://commons.wikimedia.org/wiki/File:Gong_or_bell_vibrant_(short).ogg ; https://commons.wikimedia.org/wiki/File:Gong_or_bell_vibrant.ogg |
+| `gong_00.mp3` | Đại cồng, cảnh 9 | Gong55.ogg | stephan | CC0 | https://commons.wikimedia.org/wiki/File:Gong55.ogg |
+| `taiko_00`–`taiko_03` | Trống tự đánh, cảnh 6 | 02 Taiko2 (short).oga | Scott Harding (biểu diễn bởi Singapore Wind Symphony) | CC0 | https://commons.wikimedia.org/wiki/File:02_Taiko2_(short).oga |
+| `firework_burst_00`–`firework_burst_02` | Pháo hoa, cảnh 6 | Fireworks in distance 6.ogg | ezwa | Public domain | https://commons.wikimedia.org/wiki/File:Fireworks_in_distance_6.ogg |
+| `scream_00`–`scream_02` | Tiếng hét khi trần sập, cảnh 10 | Scream-c.wav | Raspberry Pi Foundation, Andy Oakley | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Scream-c.wav |
+| `step_church_00`–`step_church_03` | Bước chân trong nhà thờ có vang | Church people walking steps with reverb.ogg | stephan | Public domain | https://commons.wikimedia.org/wiki/File:Church_people_walking_steps_with_reverb.ogg |
+| Các file còn lại | Âm tổng hợp: bước chân, trần sập, rồng gầm, vỗ cánh, gió, dế, giọt nước, chuông, trống, pháo, chuyển cảnh | Tổng hợp bằng `tools/make_audio.py` | Chủ dự án | Thuộc dự án | — |
+
+- Mẫu CC BY-SA 4.0 (tiếng hét): các đoạn đã cắt và đổi cao độ là bản dẫn xuất, nên cũng theo CC BY-SA 4.0 và phải ghi nguồn.
+- Mẫu CC BY (sấm, ếch): khi công bố phải ghi tác giả và nguồn như bảng trên.
+- Chạy lại `tools/make_audio.py` cần `AUDIO_SRC` trỏ tới thư mục chứa các file gốc (để nguyên tên trên Commons), và các gói `numpy scipy soundfile av`.
