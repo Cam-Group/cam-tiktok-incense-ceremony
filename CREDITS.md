@@ -96,10 +96,10 @@ Lấy từ Wikimedia Commons, đã cắt, đổi cỡ hoặc tách nền.
 | File | Dùng làm | Tên file gốc | Tác giả | Giấy phép |
 |---|---|---|---|---|
 | `wood_0`–`wood_3` | Bốn mảnh xà gỗ rơi, cảnh 10 | `P14_xa_go.gif` (4 khung, tách thành 4 mảnh) | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh |
-| `hall_nut.jpg`, `hall_nuoc1.jpg`, `hall_ngap.jpg` | Không còn dùng từ 13/11/2026 (thay bằng `hall_crack_*` và `hall_flood_*`) | `P6_hall_nut.jpg`, `P7_hall_nuoc1.jpg`, `P8_hall_ngap.jpg` | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh |
 
 - Các ảnh `petal.png`, `lantern.png`, `bg_buddha.jpg`, `bg_storm.jpg`, `bg_realm.jpg` được thay bằng ảnh mới cùng tên, nên các dòng trên đã được cập nhật.
-- `wood_4.png` (xà gỗ cũ), `crack_*`, `flood_*` và `hall_nut.jpg`, `hall_nuoc1.jpg`, `hall_ngap.jpg` không còn được game dùng. Các file này vẫn còn trong thư mục và có thể xoá.
+- `wood_4.png` (xà gỗ cũ), `crack_*` và `flood_*` không còn được game dùng. Các file này đã có trong dự án từ trước nên vẫn được giữ; có thể xoá khi không cần.
+- Ba ảnh P6–P8 cũ (`hall_nut.jpg`, `hall_nuoc1.jpg`, `hall_ngap.jpg`) đã được xoá khỏi dự án; bản gốc vẫn còn trong thư mục Screenshots.
 - Cảnh 4 không còn đổi phòng: `hall_crack_*` và `hall_flood_*` (mục dưới) được dựng từ đúng nền chánh điện mà game đang vẽ.
 
 ## Cảnh 4 dựng từ chánh điện (thêm ngày 13/11/2026)
