@@ -9,17 +9,17 @@ function createSpeechController({ synthesis, Utterance, rate = 1.1, onState = ()
   };
   const hint = () => {
     if (!supported) report('unavailable', 'Trình duyệt không hỗ trợ giọng đọc. Game vẫn chạy; hãy thử trình duyệt khác.');
-    else report('idle', voice() ? 'Bấm Bật giọng đọc để nghe tên và lời chúc.' :
-      'Danh sách giọng Việt chưa sẵn sàng. Bấm Bật giọng đọc để thử giọng của máy.');
+    else report('idle', voice() ? 'Giọng đọc tự bật khi bạn chạm vào trang lần đầu.' :
+      'Giọng đọc tự bật khi bạn chạm vào trang. Danh sách giọng Việt chưa sẵn sàng, máy sẽ dùng giọng mặc định.');
   };
   const errorText = code => {
-    if (code === 'not-allowed') return 'Trình duyệt chưa cho phép đọc. Bấm Thử lại giọng đọc.';
+    if (code === 'not-allowed') return 'Trình duyệt chưa cho phép đọc. Chạm lại vào trang để thử lại.';
     if (code === 'language-unavailable' || code === 'voice-unavailable')
-      return 'Máy chưa cung cấp giọng tiếng Việt. Kiểm tra giọng Việt trong cài đặt giọng nói, rồi bấm Thử lại giọng đọc.';
-    if (code === 'start-timeout') return 'Trình duyệt chưa bắt đầu đọc. Bấm Thử lại giọng đọc khi trang đang mở.';
-    if (code === 'timeout') return 'Giọng đọc bị treo hoặc gián đoạn. Bấm Thử lại giọng đọc.';
-    if (code === 'audio-busy' || code === 'audio-hardware') return 'Không mở được âm thanh cho giọng đọc. Kiểm tra âm thanh của máy rồi bấm Thử lại giọng đọc.';
-    return 'Giọng đọc bị lỗi hoặc bị ngắt. Bấm Thử lại giọng đọc; game vẫn tiếp tục.';
+      return 'Máy chưa cung cấp giọng tiếng Việt. Kiểm tra giọng Việt trong cài đặt giọng nói, rồi chạm lại vào trang để thử lại.';
+    if (code === 'start-timeout') return 'Trình duyệt chưa bắt đầu đọc. Chạm lại vào trang để thử lại khi trang đang mở.';
+    if (code === 'timeout') return 'Giọng đọc bị treo hoặc gián đoạn. Chạm lại vào trang để thử lại.';
+    if (code === 'audio-busy' || code === 'audio-hardware') return 'Không mở được âm thanh cho giọng đọc. Kiểm tra âm thanh của máy rồi chạm lại vào trang để thử lại.';
+    return 'Giọng đọc bị lỗi hoặc bị ngắt. Chạm lại vào trang để thử lại; game vẫn tiếp tục.';
   };
 
   function job(done, probe = false) {
@@ -105,9 +105,10 @@ function createSpeechController({ synthesis, Utterance, rate = 1.1, onState = ()
       start('Đã bật giọng đọc. Kính chúc quý vị bình an.', () => {}, true);
     },
     speak,
+    ensure() { if (!enabled) controller.enable(); }, // giọng đọc mặc định bật: chạm vào trang mà chưa bật thì bật lại, không có lệnh tắt
     reset() {
       stop(); enabled = false;
-      if (supported) report('idle', 'Trang vừa bị gián đoạn. Bấm Bật giọng đọc để nghe tiếp.');
+      if (supported) report('idle', 'Trang vừa bị gián đoạn. Chạm lại vào trang để giọng đọc tiếp tục.');
     },
   };
   if (supported) {

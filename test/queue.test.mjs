@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import makeQueue from '../public/queue.js';
 
 const names = q => [...q.rows.flatMap(r => r.people), ...q.pending].map(p => p.name);
-const gameQueue = () => makeQueue(4, 4, 6000, tier => tier >= 5 ? 1 : 4, tier => tier >= 7);
+const gameQueue = () => makeQueue(4, 4, 6000, tier => tier >= 7);
 
 test('gom theo cấp, giữ chỗ hàng đang thắp và đưa người chờ vào khi xong', () => {
   const q = makeQueue(3, 2, 1000);
@@ -31,7 +31,7 @@ test('hàng thiếu người chỉ lên khi hết thời gian chờ, không tr�
 
 test('VIP ưu tiên FIFO sau lượt đang diễn, nhưng không vượt số hàng hiển thị', () => {
   const q = gameQueue();
-  q.add('current', 0, 5); q.depart(0);
+  q.add('current', 0, 5); q.depart(6000);
   for (let i = 0; i < 10; i++) q.add('normal' + i, i, 5);
   for (let i = 0; i < 100; i++) q.add('vip' + i, i, 7);
   assert.equal(q.offering.people[0].name, 'current');
@@ -41,7 +41,7 @@ test('VIP ưu tiên FIFO sau lượt đang diễn, nhưng không vượt số h�
   assert.equal(q.rows.length, 4);
   assert.equal(q.depart(1000).people[0].name, 'vip0');
   q.finish(2000);
-  assert.equal(q.depart(2000).people[0].name, 'vip1');
+  assert.equal(q.depart(2000).people[0].name, 'vip4');
 });
 
 test('tối đa 200 người chờ, bỏ bình luận trước rồi bỏ quà cũ nhất', () => {
@@ -80,7 +80,7 @@ test('hết hạn cả khi không có sự kiện mới, không khởi động l
 
 test('nạp liên tục 10 phút vẫn hữu hạn và không bỏ lượt đang diễn', () => {
   const q = gameQueue();
-  q.add('current', 0, 5); q.depart(0);
+  q.add('current', 0, 5); q.depart(6000);
   for (let i = 1; i <= 600; i++) {
     q.add('comment' + i, i * 1000, 1);
     q.add('gift' + i, i * 1000, 7);

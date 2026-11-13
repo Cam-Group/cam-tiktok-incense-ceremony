@@ -1,7 +1,7 @@
-// Tối đa maxRows hàng hiển thị (kể cả hàng đang thắp), cùng cấp mới chung hàng.
+// Tối đa maxRows hàng hiển thị (kể cả hàng đang thắp). Cùng cấp xếp chung hàng, tối đa perRow người một hàng.
 // Tối đa 200 người chờ: bỏ bình luận trước, rồi bỏ màn diễn quà cũ nhất.
 // Điểm quà được cộng bên ngoài queue, kể cả khi không giữ được màn diễn.
-function makeQueue(maxRows, perRow, waitMs, capOf = () => perRow, isVip = () => false) {
+function makeQueue(maxRows, perRow, waitMs, isVip = () => false) {
   const MAX_WAITING = 200, COMMENT_TTL_MS = 60000;
   let order = 0, nextExpiry = Infinity;
   const q = {
@@ -17,7 +17,7 @@ function makeQueue(maxRows, perRow, waitMs, capOf = () => perRow, isVip = () => 
       if (now >= nextExpiry) refill(now);
       const row = q.rows[0];
       if (q.offering || !row) return null;
-      if (row.people.length < capOf(row.tier) && now - row.since < waitMs) return null;
+      if (row.people.length < perRow && now - row.since < waitMs) return null;
       return (q.offering = q.rows.shift());
     },
 
@@ -45,7 +45,7 @@ function makeQueue(maxRows, perRow, waitMs, capOf = () => perRow, isVip = () => 
     nextExpiry = Infinity;
     for (const p of fresh) {
       if (p.tier === 1) nextExpiry = Math.min(nextExpiry, p.since + COMMENT_TTL_MS);
-      const row = q.rows.find(r => r.tier === p.tier && r.people.length < capOf(p.tier));
+      const row = q.rows.find(r => r.tier === p.tier && r.people.length < perRow);
       if (row) row.people.push(p);
       else if (q.rows.length < maxRows - (q.offering ? 1 : 0)) {
         q.rows.push({ tier: p.tier, people: [p], since: p.since });

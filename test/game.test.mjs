@@ -21,7 +21,7 @@ test('script thật: URL nền, gift/status lỗi và lọc trùng được nố
 test('quá tải bỏ màn diễn cũ nhưng mọi quà hợp lệ vẫn được cộng điểm', () => {
   const game = createGame();
   const source = game.sources[0];
-  source.emit('gift', gift('current')); game.advance(.1);
+  source.emit('gift', gift('current')); game.advance(6); // hàng chưa đủ người nên chờ hết 6 giây rồi mới lên diễn
   for (let i = 0; i < 300; i++) source.emit('gift', gift('gift' + i));
   assert.equal(game.read('board.top()[0].diamonds'), 3010);
   assert.equal(game.read(waiting), 200);
@@ -49,22 +49,35 @@ test('override server được chuẩn hóa; URL có query/fragment/credentials 
   }
 });
 
-test('nút giọng đọc gọi TTS trực tiếp dù danh sách giọng iPhone còn rỗng', () => {
+test('giọng đọc mặc định bật: chạm đầu tiên nói ngay trong thao tác, lỗi thì chạm lại là thử lại, live không có nút tắt', () => {
   const calls = [];
   const synthesis = { getVoices: () => [], speak: u => calls.push(u), cancel() {}, addEventListener() {} };
   class Utterance { constructor(text) { this.text = text; } }
   const game = createGame({ speech: { synthesis, Utterance } });
-  assert.equal(calls.length, 0);
-  game.click('voice-enable');
-  assert.equal(calls.length, 1, 'phải gọi speak ngay trong thao tác click, không chờ timer hay voiceschanged');
+  assert.equal(calls.length, 0, 'chưa chạm thì chưa nói');
+  game.dispatch('pointerdown', {});
+  assert.equal(calls.length, 1, 'chạm đầu tiên phải gọi speak ngay trong thao tác, không chờ timer hay voiceschanged');
   assert.equal(calls[0].lang, 'vi-VN');
   calls[0].onerror({ error: 'not-allowed' });
-  assert.match(game.read("document.getElementById('voice').textContent"), /cho phép|Thử lại/);
-  assert.equal(game.read("document.getElementById('voice-enable').disabled"), false);
-  game.click('voice-enable'); calls[1].onstart(); calls[1].onend();
+  assert.match(game.read("document.getElementById('voice').textContent"), /chưa cho phép/);
+  game.dispatch('keydown', {});
+  assert.equal(calls.length, 2, 'sau lỗi, chạm lại là tự thử lại');
+  calls[1].onstart(); calls[1].onend();
+  game.dispatch('pointerdown', {});
+  assert.equal(calls.length, 2, 'đã bật thì không đọc lại câu thử');
   game.hide();
-  assert.equal(game.read("document.getElementById('voice-controls').dataset.state"), 'idle');
-  assert.equal(game.read("document.getElementById('voice-enable').textContent"), 'Bật giọng đọc');
+  game.dispatch('pointerdown', {});
+  assert.equal(calls.length, 3, 'trang quay lại từ nền: chạm một lần là bật lại');
+});
+
+test('trang thử: nút Thử giọng đọc gọi TTS ngay trong thao tác click', () => {
+  const calls = [];
+  const synthesis = { getVoices: () => [], speak: u => calls.push(u), cancel() {}, addEventListener() {} };
+  class Utterance { constructor(text) { this.text = text; } }
+  const game = createGame({ search: '?ve', speech: { synthesis, Utterance } });
+  game.click('voice-test');
+  assert.equal(calls.length, 1, 'phải gọi speak ngay trong thao tác click');
+  assert.equal(calls[0].lang, 'vi-VN');
 });
 
 test('cả 12 cấp hoàn tất qua update/draw/frame thật, không kẹt hàng', () => {
@@ -78,4 +91,17 @@ test('cả 12 cấp hoàn tất qua update/draw/frame thật, không kẹt hàng
     }
     assert.equal(completed, true, 'cấp ' + tier);
   }
+});
+
+test('bốn người cùng cấp cao xếp chung một hàng, cả hàng lên một màn và hoàn tất', () => {
+  const game = createGame({ search: '?ve' });
+  for (const name of ['An', 'Bình', 'Chi', 'Dũng']) game.add(name, 12);
+  game.advance(.1);
+  assert.equal(game.read('q.offering.people.length'), 4);
+  let completed = false;
+  for (let seconds = 1; seconds <= 120 && !completed; seconds++) {
+    game.advance(1);
+    completed = game.read('!q.offering && !q.rows.length && !q.pending.length');
+  }
+  assert.equal(completed, true);
 });

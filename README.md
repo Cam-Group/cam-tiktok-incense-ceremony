@@ -45,6 +45,7 @@ Backend phải cho phép CORS từ domain frontend và proxy phải hỗ trợ S
 ## Chính sách hàng đợi
 
 - Tối đa **4 hàng hiển thị**, tính cả hàng đang thắp. VIP được ưu tiên FIFO nhưng không ngắt lượt đang diễn.
+- Người **cùng cấp** xếp chung một hàng (tối đa 4 người), kể cả cấp cao: cả hàng lên diễn một màn. Hàng chưa đủ người chờ tối đa 6 giây rồi vẫn lên.
 - Tối đa **200 người chờ**, tính cả các hàng đang xếp và danh sách chưa hiển thị, không tính lượt đang diễn.
 - Bình luận đang chờ hết hạn sau **60 giây**. Khi đầy: loại bình luận cũ trước; nếu vẫn đầy thì bỏ màn diễn quà cũ nhất.
 - **Mọi quà hợp lệ được cộng điểm trước khi xếp hàng**, dù màn diễn của nó bị bỏ vì quá tải. Lượt đang diễn không bị cắt.
@@ -53,11 +54,11 @@ Backend phải cho phép CORS từ domain frontend và proxy phải hỗ trợ S
 
 ## Giọng đọc trên điện thoại
 
-Bấm **Bật giọng đọc** để nghe một câu thử trước khi nhận quà. Thao tác này gọi Web Speech trực tiếp từ nút bấm, riêng với âm thanh ting/chuông. Nút và thông báo lỗi luôn hiển thị cả trong chế độ live; **Thử lại giọng đọc** cho phép kiểm tra lại khi bị ngắt.
+Giọng đọc **mặc định bật và không có nút tắt**. Trình duyệt chỉ cho đọc sau một thao tác của người dùng, nên lần chạm đầu tiên vào trang sẽ mở khoá giọng đọc (đọc một câu thử ngắn). Trước lần chạm đó, các lời chúc chỉ được chờ theo thời gian và không có tiếng. Chế độ live không có nút; dòng trạng thái nhỏ phía dưới màn hình hiện lỗi nếu có. Trang thử có nút **Thử giọng đọc** để kiểm tra lại.
 
 - Danh sách giọng có thể tải chậm. Khi chưa thấy giọng Việt, frontend vẫn yêu cầu `vi-VN` để hệ thống chọn giọng; không bỏ đọc chỉ vì `getVoices()` đang rỗng.
-- Nếu máy báo thiếu giọng Việt hoặc từ chối quyền đọc, xem thông báo trên trang và thử lại. Frontend không tự cài giọng và không dùng dịch vụ TTS bên ngoài; không bảo đảm mọi thiết bị đều có giọng Việt.
-- Khi đổi ứng dụng, đưa trang vào nền hoặc quay lại từ lịch sử, bấm **Bật giọng đọc** lại. Không tự phát sau khi trang bị gián đoạn.
+- Nếu máy báo thiếu giọng Việt hoặc từ chối quyền đọc, dòng trạng thái ghi rõ lỗi; chạm lại vào trang để thử lại. Frontend không tự cài giọng và không dùng dịch vụ TTS bên ngoài; không bảo đảm mọi thiết bị đều có giọng Việt.
+- Khi đổi ứng dụng, đưa trang vào nền hoặc quay lại từ lịch sử, trình duyệt ngắt giọng đọc; chạm một lần vào trang là bật lại. Không tự phát sau khi trang bị gián đoạn.
 - Nếu giọng đọc lỗi hoặc mất callback kết thúc, watchdog giải phóng lượt để hàng đợi không bị kẹt. Game vẫn hoạt động khi không có TTS.
 
 ## Kiểm thử và nghiệm thu

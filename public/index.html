@@ -25,15 +25,14 @@
   input, select { width: 100%; box-sizing: border-box; padding: 8px; font: inherit; margin-bottom: 8px; }
   button { padding: 8px 12px; font: inherit; cursor: pointer; margin: 0 6px 6px 0; }
   .voice-controls { margin: 16px 0; }
-  #voice-enable { min-height: 44px; font-size: 16px; border: 1px solid #d4a017; border-radius: 6px; background: #8a1416; color: #ffd76a; touch-action: manipulation; }
-  #voice-enable:hover:not(:disabled) { background: #a41b1e; }
-  #voice-enable:focus-visible { outline: 2px solid #ffd76a; outline-offset: 3px; }
-  #voice-enable:disabled { cursor: default; background: #3e2820; color: #e8cfaa; border-color: #9b7940; }
+  #voice-test { min-height: 44px; font-size: 16px; border: 1px solid #d4a017; border-radius: 6px; background: #8a1416; color: #ffd76a; touch-action: manipulation; }
+  #voice-test:hover:not(:disabled) { background: #a41b1e; }
+  #voice-test:focus-visible { outline: 2px solid #ffd76a; outline-offset: 3px; }
+  #voice-test:disabled { cursor: default; background: #3e2820; color: #e8cfaa; border-color: #9b7940; }
   #voice { margin: 4px 0 0; color: #f5e6c8; font-size: 14px; overflow-wrap: anywhere; }
-  .voice-controls[data-state="error"] #voice, .voice-controls[data-state="unavailable"] #voice { color: #ffb38a; }
-  body.live .voice-controls { position: fixed; z-index: 2; left: 50%; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); width: min(340px, calc(100vw - 24px)); box-sizing: border-box; margin: 0; padding: 10px 12px; background: rgba(27,15,10,.96); border-radius: 8px; }
-  body.live #voice-enable { width: 100%; margin: 0; }
-  body.live .voice-controls #link { position: static; transform: none; width: auto; max-width: none; margin: 6px 0 0; padding: 0; background: transparent; }
+  #voice[data-state="error"], #voice[data-state="unavailable"] { color: #ffb38a; }
+  body.live #voice { position: fixed; z-index: 2; left: 50%; bottom: calc(44px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); width: max-content; max-width: 90vw; margin: 0; padding: 6px 12px; border-radius: 8px; background: rgba(0,0,0,.7); font-size: 13px; text-align: center; transition: opacity .5s; pointer-events: none; }
+  body.live #voice:empty { display: none; }
 </style>
 </head>
 <body>
@@ -53,10 +52,10 @@
   <p id="status" aria-live="polite"></p>
   <p id="link" role="status"></p>
   <section id="voice-controls" class="voice-controls" aria-label="Giọng đọc">
-    <button type="button" id="voice-enable" aria-describedby="voice">Bật giọng đọc</button>
+    <button type="button" id="voice-test" aria-describedby="voice">Thử giọng đọc</button>
     <p id="voice" role="status" aria-live="polite" aria-atomic="true"></p>
   </section>
-  <p>Bấm Bật giọng đọc trước khi thử quà. Bạn sẽ nghe một câu thử để kiểm tra giọng tiếng Việt trên máy.</p>
+  <p>Bấm Thử giọng đọc để nghe một câu thử và kiểm tra giọng tiếng Việt trên máy.</p>
 </aside>
 
 <script src="config.js"></script>
@@ -133,16 +132,15 @@ const AO_DAI = ['#b3202a', '#1f5f8b', '#6a1b7a', '#0f7a5a', '#c7772a', '#c9a227'
 const TIER_COLOR = ['#fff6d8', '#ffe9a8', '#ffd76a', '#ffc04d', '#ff9d5c', '#ff7a59', '#ff5c8a', '#e86bff', '#a78bff', '#6fc3ff', '#5ff0d0', '#ffffff']; // màu thẻ tên theo cấp
 const SERIF = '"Noto Serif", Georgia, "Times New Roman", serif';
 
-const capOf = lvl => lvl >= 5 ? 1 : PER_ROW; // từ cấp 5 mỗi người một màn riêng
 const isVip = lvl => lvl >= 7;               // từ cấp 7 được lên ngay sau lượt đang thắp
-const q = makeQueue(MAX_ROWS, PER_ROW, WAIT_MS, capOf, isVip);
+const q = makeQueue(MAX_ROWS, PER_ROW, WAIT_MS, isVip);
 const board = makeBoard();                   // top người tặng nhiều kim cương nhất phiên live
 const ctx = document.getElementById('c').getContext('2d');
 // hàng so le nhau để thẻ tên hàng sau không đè đúng lưng hàng trước
 const slotX = (j, slot) => W / 2 + (j - (PER_ROW - 1) / 2) * 150 + (slot % 2 ? 30 : -30);
 let phase = '', prayT = 0, prayId = 0, speechDone = false, banner = null;
 let scene = null, shake = 0, flee = false; // màn diễn đang chạy (scenes.js), độ rung màn hình, mọi người đang bỏ chạy
-const colX = (j, tier, slot) => slotX(j + (PER_ROW - capOf(tier)) / 2, slot); // hàng ít người đứng giữa
+const colX = (j, n, slot) => slotX(j + (PER_ROW - n) / 2, slot); // hàng ít người đứng giữa (n = số người trong hàng)
 let leaving = [], smoke = [], sticks = 3, glow = 0, fairy = 0;
 let fx = [], ringT = 0, ringN = 0; // hạt hiệu ứng: k = 's' tàn lửa/kim sa, 'r' vòng sáng, 't' chữ bay
 const TIER_RGB = ['255,246,216', '255,233,168', '255,215,106', '255,192,77', '255,157,92', '255,122,89', '255,92,138', '232,107,255', '167,139,255', '111,195,255', '95,240,208', '255,255,255'];
@@ -181,14 +179,13 @@ if (TT_USER) { // đang chạy live: bỏ bảng thử, trạng thái kết nố
   document.body.classList.add('live'); document.body.append(link); link.className = 'toast';
   let hide;
   new MutationObserver(() => { link.style.opacity = 1; clearTimeout(hide); hide = setTimeout(() => { link.style.opacity = 0; }, 6000); }).observe(link, { childList: true, characterData: true, subtree: true });
-  const tap = document.body.appendChild(Object.assign(document.createElement('p'), { className: 'toast tap', textContent: 'Chạm vào cảnh để vào toàn màn hình. Bấm Bật giọng đọc để nghe tên và lời chúc.' }));
+  const tap = document.body.appendChild(Object.assign(document.createElement('p'), { className: 'toast tap', textContent: 'Chạm vào màn hình để vào toàn màn hình và bật giọng đọc.' }));
   // Trình duyệt chỉ cho vào toàn màn hình và giữ màn hình sáng sau một thao tác của người dùng.
   // Thoát bằng Esc hoặc vuốt; chạm lần nữa thì vào lại.
   const root = document.documentElement, goFull = root.requestFullscreen || root.webkitRequestFullscreen;
   // iPhone không có toàn màn hình cho trang web: nếu chưa mở từ Màn hình chính thì chỉ cách làm
-  if (!goFull) tap.textContent = navigator.standalone ? 'Bấm Bật giọng đọc để nghe tên và lời chúc.' : 'Bấm Bật giọng đọc để nghe. Để ẩn thanh trình duyệt: Chia sẻ → Thêm vào Màn hình chính.';
+  if (!goFull) tap.textContent = navigator.standalone ? 'Chạm vào màn hình để bật giọng đọc.' : 'Chạm vào màn hình để bật giọng đọc. Để ẩn thanh trình duyệt: Chia sẻ → Thêm vào Màn hình chính.';
   ['pointerdown', 'keydown'].forEach(ev => addEventListener(ev, e => {
-    if (e.target?.closest?.('#voice-controls')) return; // không để fullscreen tiêu thụ thao tác bật giọng đọc
     tap.remove();
     if (e.key === 'Escape') return;
     if (goFull && !(document.fullscreenElement || document.webkitFullscreenElement)) Promise.resolve(goFull.call(root)).catch(() => {});
@@ -213,23 +210,26 @@ else {
   es.onerror = () => { link.textContent = `Không liên lạc được server nhận quà (${where}). Kiểm tra server đã chạy chưa; trình duyệt sẽ tự thử lại.`; };
 }
 
-// ---------- Giọng đọc ----------
-const voiceControls = document.getElementById('voice-controls');
-const voiceButton = document.getElementById('voice-enable');
+// ---------- Giọng đọc: mặc định bật, không có nút tắt ----------
+// Trình duyệt chỉ cho đọc sau một thao tác của người dùng: chạm/bấm phím đầu tiên (hoặc sau khi trang bị gián đoạn) sẽ mở khoá.
+// Live không có nút; trang thử có nút "Thử giọng đọc" để kiểm tra lại.
+const voiceButton = document.getElementById('voice-test');
 const voiceStatus = document.getElementById('voice');
-if (TT_USER) { document.body.append(voiceControls); voiceControls.append(link); } // gom trạng thái để không đè nhau, luôn hiện ngoài aside
+if (TT_USER) { voiceButton.remove(); document.body.append(voiceStatus); } // live: không có nút, chỉ còn dòng trạng thái nổi
 const speech = createSpeechController({
   synthesis: window.speechSynthesis, Utterance: window.SpeechSynthesisUtterance, rate: SPEECH_RATE,
   onState: ({ phase, message }) => {
-    voiceControls.dataset.state = phase;
-    voiceControls.setAttribute('aria-busy', String(phase === 'testing'));
-    voiceButton.disabled = phase === 'unavailable' || phase === 'testing';
-    voiceButton.textContent = phase === 'testing' ? 'Đang thử giọng đọc…' :
-      phase === 'unavailable' ? 'Không hỗ trợ giọng đọc' : phase === 'idle' ? 'Bật giọng đọc' : 'Thử lại giọng đọc';
     voiceStatus.textContent = message;
+    voiceStatus.dataset.state = phase;
+    voiceStatus.style.opacity = TT_USER && phase === 'ready' ? 0 : 1; // live: đã bật thì ẩn dòng trạng thái
+    if (voiceButton.isConnected) { // trang thử: nút chỉ để kiểm tra lại
+      voiceButton.disabled = phase === 'unavailable' || phase === 'testing';
+      voiceButton.textContent = phase === 'testing' ? 'Đang thử giọng đọc…' : phase === 'unavailable' ? 'Không hỗ trợ giọng đọc' : 'Thử giọng đọc';
+    }
   },
 });
 voiceButton.onclick = () => { speech.enable(); audio?.resume(); }; // không await trước enable: giữ thao tác trực tiếp cho iOS
+['pointerdown', 'keydown'].forEach(ev => addEventListener(ev, () => speech.ensure())); // chạm đầu tiên tự bật giọng đọc, không có nút tắt
 const speak = (text, done) => speech.speak(text, done);
 document.addEventListener('visibilitychange', () => { if (document.hidden) speech.reset(); });
 addEventListener('pagehide', () => speech.reset());
@@ -267,7 +267,7 @@ function step(p, dt) {
 function layoutRows() {
   const off = q.offering ? 1 : 0;
   q.rows.forEach((r, i) => r.people.forEach((p, j) => {
-    target(p, colX(j, r.tier, i + off), ROW_Y0 + (i + off) * ROW_GAP);
+    target(p, colX(j, r.people.length, i + off), ROW_Y0 + (i + off) * ROW_GAP);
     if (flee) { p.tx = p.x < W / 2 ? -150 : W + 150; p.ty = H + 150; } // trần sập: mọi người chạy khỏi điện
   }));
 }
@@ -278,7 +278,7 @@ function update(dt, now) {
   if (q.offering) {
     const ps = q.offering.people, tier = q.offering.tier;
     if (phase === 'walk') {
-      ps.forEach((p, j) => target(p, colX(j, tier, 0) + 30, OFFER_Y));
+      ps.forEach((p, j) => target(p, colX(j, ps.length, 0) + 30, OFFER_Y));
       if (ps.every(p => !p.moving && p.y === OFFER_Y)) {
         phase = 'pray'; prayT = 0; speechDone = false;
         const names = ps.map(p => p.name), title = LEVELS[tier - 1].name;
@@ -816,8 +816,7 @@ function draw(t) {
 
   ctx.save(); ctx.globalCompositeOperation = 'lighter';
   if (REAL) [[158, 462, 60], [542, 462, 60], [120, 190, 95], [606, 182, 95]].forEach(([x, y, r0], i) => { // đèn dầu và đèn trần trong ảnh lung linh
-    const r = r0 + Math.sin(t * 9 + i * 3) * 3 + Math.sin(t * 15 + i) * 3;
-    ell(ctx, x, y, r, r, rg(ctx, x, y, 2, r, [0, 'rgba(255,200,110,.3)'], [1, 'rgba(255,200,110,0)']));
+    halo(x, y, r0 + Math.sin(t * 9 + i * 3) * 3 + Math.sin(t * 15 + i) * 3, .45); // quầng sáng thật
   });
   else [[106, 174, 250, 430], [614, 546, 470, 290]].forEach(([a, b, c2, d], i) => { // nắng xiên qua song cửa
     const al = .075 + Math.sin(t * .6 + i * 2) * .025;
@@ -832,7 +831,7 @@ function draw(t) {
   });
   for (let i = 0; i < 26; i++) { // bụi vàng lơ lửng quanh bàn thờ
     const k = (t * 12 + i * 41) % 380, a = Math.sin(k / 380 * Math.PI) * .7;
-    ell(ctx, 200 + i * 53 % 320 + Math.sin(t * .5 + i) * 14, 580 - k, 1.6, 1.6, `rgba(255,225,140,${a})`);
+    sparkPic(200 + i * 53 % 320 + Math.sin(t * .5 + i) * 14, 580 - k, 2, a); // bụi vàng: tia lửa thật rất nhỏ
   }
   const sheen = (t % 7) / 1.5; // vệt sáng lướt qua tượng vàng
   if (!REAL && sheen < 1) {
@@ -898,12 +897,12 @@ function draw(t) {
   ctx.save(); ctx.globalCompositeOperation = 'lighter';
   for (let i = 0; i < 12; i++) { // đom đóm ở góc tối
     const a = (Math.sin(t * 2 + i * 1.7) * .5 + .5) * .75, x = i * 173 % W + Math.sin(t * .4 + i * 2) * 40, y = 930 + i * 97 % 330 + Math.cos(t * .3 + i) * 25;
-    ell(ctx, x, y, 7, 7, `rgba(210,255,140,${a * .2})`); ell(ctx, x, y, 1.8, 1.8, `rgba(225,255,170,${a})`);
+    halo(x, y, 9, a); // đom đóm: quầng sáng thật nhỏ
   }
   fx.forEach(p => {
     if (p.k === 's' && IMG.spark) { const k = p.size * 5; ctx.globalAlpha = p.life; ctx.drawImage(IMG.spark, p.x - k, p.y - k * 1.3, k * 2, k * 2.25); ctx.globalAlpha = 1; } // tia lửa thật
     else if (p.k === 's') { ell(ctx, p.x, p.y, p.size * 3, p.size * 3, `rgba(${p.col},${p.life * .22})`); ell(ctx, p.x, p.y, p.size, p.size, `rgba(${p.col},${p.life})`); }
-    else if (p.k === 'r') { const r = (1 - p.life) * p.r + 8; ctx.lineWidth = 2 + p.life * 5; ell(ctx, p.x, p.y, r, r * (p.y > 500 ? .32 : 1), null, `rgba(${p.col},${p.life * .6})`); }
+    else if (p.k === 'r') { const r = (1 - p.life) * p.r + 8; light('halo_soft', p.x, p.y, r, r * (p.y > 500 ? .32 : 1), p.life * .6); } // vòng sáng thật, loang dần
   });
   ctx.restore();
   fx.forEach(p => { // chữ lành bay lên

@@ -30,6 +30,26 @@ test('không tự phát trước click; enable gọi speak đồng bộ với la
   assert.equal(s.state().phase, 'ready');
 });
 
+test('chạm vào trang: ensure bật giọng đọc khi chưa bật, không đọc lại khi đã bật, và tự thử lại sau lỗi', t => {
+  const s = setup(t);
+  s.controller.ensure();
+  assert.equal(s.calls.length, 1);
+  assert.equal(s.calls[0].lang, 'vi-VN');
+  s.controller.ensure(); // đang thử: không tạo thêm lượt
+  assert.equal(s.calls.length, 1);
+  s.calls[0].onstart(); s.calls[0].onend();
+  assert.equal(s.state().phase, 'ready');
+  s.controller.ensure(); // đã bật: không đọc lại câu thử
+  assert.equal(s.calls.length, 1);
+  s.controller.reset(); // trang vào nền rồi quay lại
+  s.controller.ensure();
+  assert.equal(s.calls.length, 2);
+  s.calls[1].onerror({ error: 'not-allowed' });
+  assert.match(s.state().message, /chưa cho phép/);
+  s.controller.ensure();
+  assert.equal(s.calls.length, 3);
+});
+
 test('giọng tải chậm qua voiceschanged được dùng ở câu kế tiếp, không phát tự động', t => {
   const s = setup(t);
   const vietnamese = { lang: 'vi_VN', name: 'Vietnamese' };
