@@ -24,11 +24,11 @@ async function authenticated() {
 
 test('thiếu SITE_PASSWORD thì khóa cả trang và assets', async () => {
   delete process.env.SITE_PASSWORD;
-  for (const path of ['/', '/config.js', '/assets/hall.jpg']) assert.equal((await middleware(request(path))).status, 503);
+  for (const path of ['/', '/config.js', '/assets/hall.webp']) assert.equal((await middleware(request(path))).status, 503);
 });
 
 test('khách chưa đăng nhập chỉ nhận form, không cache hay lộ mật khẩu', async () => {
-  for (const path of ['/?username=alice', '/config.js', '/assets/hall.jpg']) {
+  for (const path of ['/?username=alice', '/config.js', '/assets/hall.webp']) {
     const response = await middleware(request(path));
     assert.equal(response.headers.get('cache-control'), 'no-store');
     const html = await response.text();

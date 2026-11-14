@@ -586,14 +586,14 @@ const fg = document.createElement('canvas'); fg.width = W; fg.height = H;
 })(fg.getContext('2d'));
 
 // ---------- Ảnh thật (assets/, xem CREDITS.md) ----------
-// Ảnh nhân vật theo tư thế. Bắt buộc: person.png (đứng). Tuỳ chọn, có thì tự dùng:
-// person_walk1.png, person_walk2.png (hai nhịp bước), person_bow.png (cúi lạy). Thiếu thì game uốn ảnh đứng để tạo chuyển động.
+// Ảnh nhân vật theo tư thế. Bắt buộc: person.webp (đứng). Tuỳ chọn, có thì tự dùng:
+// person_walk1.webp, person_walk2.webp (hai nhịp bước), person_bow.webp (cúi lạy). Thiếu thì game uốn ảnh đứng để tạo chuyển động.
 const POSE = {}, tinted = new Map(), FAIRY_IMGS = [];
 const POSE_FILES = []; // tư thế tuỳ chọn đã có file: 'walk1', 'walk2', 'bow'. Hiện chưa có ảnh nên không tải, tránh 404. Có ảnh thì thêm tên vào đây
-// Nhân vật có đủ khung hình động (tách từ ảnh động): c_<mã>_<khung>.png, khung 02 bước vào, 03/08 đứng, 04–05 chắp tay, 06–07 cúi lạy, 09–10 đi ngang.
+// Nhân vật có đủ khung hình động (tách từ ảnh động): c_<mã>_<khung>.webp, khung 02 bước vào, 03/08 đứng, 04–05 chắp tay, 06–07 cúi lạy, 09–10 đi ngang.
 // dir: hướng nhân vật đi ra sau khi thắp hương (-1 trái, 1 phải), theo đúng hướng trong ảnh động gốc.
 const CHARS = [['L1', -1], ['L2', -1], ['L3', -1], ['L4', -1], ['L5', -1], ['R1', 1], ['R2', 1], ['R3', 1], ['R4', 1], ['R5', 1]].map(([id, dir]) => ({ id, dir, f: {} }));
-// Khung chưa có file (c_L2_02.png): không tải để khỏi báo 404; drawPerson tự dùng khung khác khi thiếu khung 02
+// Khung chưa có file (c_L2_02.webp): không tải để khỏi báo 404; drawPerson tự dùng khung khác khi thiếu khung 02
 const MISSING_FRAMES = { L2: [2] };
 const charReady = c => c && [3, 4, 5, 6, 7, 8, 9, 10].every(n => c.f[n]);
 const IMG = {}; // ảnh thật cho hiệu ứng: cloud, smoke, spark, petal, paper — thiếu ảnh nào thì vẽ bằng code
@@ -612,18 +612,18 @@ function sprite(pose, col) { // ảnh tư thế đã nhuộm màu áo dài, nhu�
 if (REAL) {
   // ?v=… để trình duyệt không dùng lại bản lưu tạm của ảnh cũ sau khi thay file
   const load = (src, done) => { const im = new Image(); im.onload = () => done(im); im.src = src + '?v=5'; };
-  CHARS.forEach(c => [2, 3, 4, 5, 6, 7, 8, 9, 10].filter(n => !(MISSING_FRAMES[c.id] || []).includes(n)).forEach(n => load(`assets/c_${c.id}_${String(n).padStart(2, '0')}.png`, im => c.f[n] = im)));
-  ['cloud.png', 'spark.png', 'petal.png', 'paper.jpg'].forEach(f => load('assets/' + f, im => IMG[f.split('.')[0]] = im));
-  load('assets/smoke.png', im => { // khói trong ảnh gốc ám xanh: khử bớt màu cho ra khói hương trắng
+  CHARS.forEach(c => [2, 3, 4, 5, 6, 7, 8, 9, 10].filter(n => !(MISSING_FRAMES[c.id] || []).includes(n)).forEach(n => load(`assets/c_${c.id}_${String(n).padStart(2, '0')}.webp`, im => c.f[n] = im)));
+  ['cloud.webp', 'spark.webp', 'petal.webp', 'paper.webp'].forEach(f => load('assets/' + f, im => IMG[f.split('.')[0]] = im));
+  load('assets/smoke.webp', im => { // khói trong ảnh gốc ám xanh: khử bớt màu cho ra khói hương trắng
     const cv = document.createElement('canvas'); cv.width = im.width; cv.height = im.height;
     const c = cv.getContext('2d'); c.drawImage(im, 0, 0);
     c.globalCompositeOperation = 'saturation'; c.globalAlpha = .85; c.fillStyle = '#888'; c.fillRect(0, 0, cv.width, cv.height);
     c.globalCompositeOperation = 'destination-in'; c.globalAlpha = 1; c.drawImage(im, 0, 0);
     IMG.smoke = cv;
   });
-  load('assets/person.png', im => POSE.stand = im);
-  POSE_FILES.forEach(n => load(`assets/person_${n}.png`, im => POSE[n] = im));
-  for (let i = 1; i <= 10; i++) load(`assets/fairy${i}.png`, im => { // tiên nữ: fairy1.png … fairy10.png, có bao nhiêu dùng bấy nhiêu
+  load('assets/person.webp', im => POSE.stand = im);
+  POSE_FILES.forEach(n => load(`assets/person_${n}.webp`, im => POSE[n] = im));
+  for (let i = 1; i <= 10; i++) load(`assets/fairy${i}.webp`, im => { // tiên nữ: fairy1.webp … fairy10.webp, có bao nhiêu dùng bấy nhiêu
     const cv = document.createElement('canvas'); cv.width = im.width; cv.height = im.height;
     const c = cv.getContext('2d'); c.drawImage(im, 0, 0);
     c.globalCompositeOperation = 'destination-out'; // làm mờ dần mép dưới và hai bên, nơi ảnh gốc bị cắt ngang
@@ -632,11 +632,11 @@ if (REAL) {
     });
     FAIRY_IMGS.push(cv);
   });
-  load('assets/hall.jpg', im => { // phần trên giữ nguyên, phần sàn kéo dài xuống cho đủ chỗ xếp hàng
+  load('assets/hall.webp', im => { // phần trên giữ nguyên, phần sàn kéo dài xuống cho đủ chỗ xếp hàng
     const c = bg.getContext('2d'), cut = .84, top = W / im.width * im.height * cut;
     c.drawImage(im, 0, 0, im.width, im.height * cut, 0, 0, W, top);
     c.drawImage(im, 0, im.height * cut, im.width, im.height * (1 - cut), 0, top, W, H - top);
-    [['assets/dao.png', 104, 862, 262], ['assets/mai.png', 612, 866, 320]].forEach(([src, x, y, h]) => load(src, tr => { // cành đào, bình mai thật hai bên
+    [['assets/dao.webp', 104, 862, 262], ['assets/mai.webp', 612, 866, 320]].forEach(([src, x, y, h]) => load(src, tr => { // cành đào, bình mai thật hai bên
       const w = h * tr.width / tr.height;
       ell(c, x, y, w * .3, 9, 'rgba(0,0,0,.45)');
       c.drawImage(tr, x - w / 2, y - h, w, h);

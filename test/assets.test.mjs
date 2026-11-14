@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync } from 'node:fs';
 import { createGame } from './helpers/game.mjs';
+import { FILES } from '../server.mjs';
 
 // Mọi ảnh assets/ mà trang yêu cầu lúc tải (ảnh nhân vật, ảnh cảnh, ảnh hiệu ứng) đều phải có file, nếu không trình duyệt báo 404
 test('mọi ảnh assets/ mà trang yêu cầu đều có file trên đĩa', () => {
@@ -10,4 +11,6 @@ test('mọi ảnh assets/ mà trang yêu cầu đều có file trên đĩa', () 
   assert.ok(requested.length > 50, 'phải ghi lại được các ảnh của cảnh');
   const missing = requested.filter(path => !existsSync(new URL('../public/' + path, import.meta.url)));
   assert.deepEqual(missing, []);
+  // máy chủ phải phục vụ được mọi ảnh đó (đường dẫn khớp FILES trong server.mjs)
+  assert.deepEqual(requested.filter(path => !FILES.test('/' + path)), []);
 });

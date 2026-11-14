@@ -14,12 +14,12 @@ const FOG_S = 2.4; // sương mù đưa về điện: nửa đầu phủ kín, n
 // Mọi hình trong màn diễn là ảnh thật. Ảnh nào chưa tải xong thì phần đó tạm chưa hiện.
 const R = {};
 const pad2 = n => String(n).padStart(2, '0');
-const frames = (name, n, ext = 'png') => Array.from({ length: n }, (_, i) => `${name}_${pad2(i)}.${ext}`);
-['bg_pond.jpg', 'bg_night.jpg', 'bg_storm.jpg', 'bg_ink.jpg', 'bg_buddha.jpg', 'bg_sky.jpg', 'bg_stars.jpg', 'bg_seaclouds.jpg', 'bg_realm.jpg',
- 'lotus.png', 'lantern.png', 'redlantern.jpg', 'pagoda.png', 'rock.png', 'buddha.png', 'buddha_light.png', 'hole.png', 'halo_soft.png', 'halo_lens.png',
- 'bolt_0.jpg', 'bolt_1.jpg', 'bolt_2.jpg', 'wood_0.png', 'wood_1.png', 'wood_2.png', 'wood_3.png',
- ...frames('fwa', 12, 'jpg'), ...frames('fwb', 12, 'jpg'), ...frames('dragon', 12), ...frames('dragon2', 12), ...frames('dragon3', 12), ...frames('dragonj', 12), ...frames('crane', 12), ...frames('koi', 8), ...frames('lion', 8),
- ...frames('loop', 12, 'jpg'), ...frames('hall_crack', 4, 'jpg'), ...frames('hall_flood', 3, 'jpg'), ...frames('rain', 12), ...frames('candle', 8, 'jpg'),
+const frames = (name, n, ext = 'webp') => Array.from({ length: n }, (_, i) => `${name}_${pad2(i)}.${ext}`);
+['bg_pond.webp', 'bg_night.webp', 'bg_storm.webp', 'bg_ink.webp', 'bg_buddha.webp', 'bg_sky.webp', 'bg_stars.webp', 'bg_seaclouds.webp', 'bg_realm.webp',
+ 'lotus.webp', 'lantern.webp', 'redlantern.webp', 'pagoda.webp', 'rock.webp', 'buddha.webp', 'buddha_light.webp', 'hole.webp', 'halo_soft.webp', 'halo_lens.webp',
+ 'bolt_0.webp', 'bolt_1.webp', 'bolt_2.webp', 'wood_0.webp', 'wood_1.webp', 'wood_2.webp', 'wood_3.webp',
+ ...frames('fwa', 12, 'webp'), ...frames('fwb', 12, 'webp'), ...frames('dragon', 12), ...frames('dragon2', 12), ...frames('dragon3', 12), ...frames('dragonj', 12), ...frames('crane', 12), ...frames('koi', 8), ...frames('lion', 8),
+ ...frames('loop', 12, 'webp'), ...frames('hall_crack', 4, 'webp'), ...frames('hall_flood', 3, 'webp'), ...frames('rain', 12), ...frames('candle', 8, 'webp'),
 ].forEach(f => { const im = new Image(); im.onload = () => { R[f.split('.')[0]] = im; }; im.src = 'assets/' + f + '?v=1'; });
 function bgImg(name, dark = 0, dy = 0) { // ảnh nền phủ kín màn hình, dy đẩy ảnh lên xuống; trả false nếu chưa có ảnh
   if (!R[name]) return false;
@@ -180,7 +180,7 @@ function dragon(at, size, t, set = 'dragon') {
 const SEATS = [[3.2, -.76], [6, .2], [9, 1.35], [11.3, 2.06]]; // chỗ ngồi trên lưng rồng, từ cổ lùi dần về đuôi
 const lotusSeat = (x, y, k) => pic('lotus', x, y - 26 * k, 470 * k); // đài sen thật, gốc toạ độ ở đáy
 const lotusFlower = (x, y, r) => pic('lotus', x, y - r * .4, r * 1.7);
-// Lỗ thủng trần: ảnh chụp thật một mảng trần bê tông vỡ, phần trời trong ảnh đã để trong suốt (hole.png, lỗ rộng bằng 1/1.112 bề ngang ảnh).
+// Lỗ thủng trần: ảnh chụp thật một mảng trần bê tông vỡ, phần trời trong ảnh đã để trong suốt (hole.webp, lỗ rộng bằng 1/1.112 bề ngang ảnh).
 // e = độ mở 0..1, paint() vẽ bầu trời nhìn qua lỗ. HOLE là đa giác nằm trọn trong phần mép đặc của ảnh, tính theo bề ngang lỗ:
 // trời chỉ được vẽ trong đa giác đó rồi mép vỡ thật phủ lên trên, nên không hở mà cũng không tràn ra ngoài.
 const HOLE = [[.427, 0], [.4, .053], [.39, .104], [.362, .15], [.319, .184], [.278, .214], [.238, .238], [.195, .254], [.153, .266], [.116, .279], [.079, .295], [.041, .308],
