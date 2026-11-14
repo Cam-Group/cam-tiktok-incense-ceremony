@@ -588,7 +588,7 @@ const fg = document.createElement('canvas'); fg.width = W; fg.height = H;
 // ---------- Ảnh thật (assets/, xem CREDITS.md) ----------
 // Ảnh nhân vật theo tư thế. Bắt buộc: person.webp (đứng). Tuỳ chọn, có thì tự dùng:
 // person_walk1.webp, person_walk2.webp (hai nhịp bước), person_bow.webp (cúi lạy). Thiếu thì game uốn ảnh đứng để tạo chuyển động.
-const POSE = {}, tinted = new Map(), FAIRY_IMGS = [];
+const POSE = {}, tinted = new Map();
 const POSE_FILES = []; // tư thế tuỳ chọn đã có file: 'walk1', 'walk2', 'bow'. Hiện chưa có ảnh nên không tải, tránh 404. Có ảnh thì thêm tên vào đây
 // Nhân vật có đủ khung hình động (tách từ ảnh động): c_<mã>_<khung>.webp, khung 02 bước vào, 03/08 đứng, 04–05 chắp tay, 06–07 cúi lạy, 09–10 đi ngang.
 // dir: hướng nhân vật đi ra sau khi thắp hương (-1 trái, 1 phải), theo đúng hướng trong ảnh động gốc.
@@ -623,15 +623,6 @@ if (REAL) {
   });
   load('assets/person.webp', im => POSE.stand = im);
   POSE_FILES.forEach(n => load(`assets/person_${n}.webp`, im => POSE[n] = im));
-  for (let i = 1; i <= 10; i++) load(`assets/fairy${i}.webp`, im => { // tiên nữ: fairy1.webp … fairy10.webp, có bao nhiêu dùng bấy nhiêu
-    const cv = document.createElement('canvas'); cv.width = im.width; cv.height = im.height;
-    const c = cv.getContext('2d'); c.drawImage(im, 0, 0);
-    c.globalCompositeOperation = 'destination-out'; // làm mờ dần mép dưới và hai bên, nơi ảnh gốc bị cắt ngang
-    [[0, cv.height, 0, cv.height * .86], [0, 0, cv.width * .05, 0], [cv.width, 0, cv.width * .95, 0]].forEach(([x0, y0, x1, y1]) => {
-      c.fillStyle = lg(c, x0, y0, x1, y1, [0, 'rgba(0,0,0,1)'], [1, 'rgba(0,0,0,0)']); c.fillRect(0, 0, cv.width, cv.height);
-    });
-    FAIRY_IMGS.push(cv);
-  });
   load('assets/hall.webp', im => { // phần trên giữ nguyên, phần sàn kéo dài xuống cho đủ chỗ xếp hàng
     const c = bg.getContext('2d'), cut = .84, top = W / im.width * im.height * cut;
     c.drawImage(im, 0, 0, im.width, im.height * cut, 0, 0, W, top);

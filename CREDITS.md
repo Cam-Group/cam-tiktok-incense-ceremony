@@ -8,7 +8,6 @@ Mọi ảnh đều đã được cắt, đổi cỡ hoặc tách nền so với 
 | `person.webp` | Người mặc áo dài nhìn từ sau (đã tách nền, nhuộm màu trong game) | Girls in Ao Dai buying fruit & Saigon 1967/68 - Photo by John Beck | Tommy Japan 79 | CC BY 2.0 | https://www.flickr.com/photos/97930879@N02/31821454182 |
 | `dao.webp` | Cành đào (đã tách nền) | Hoa dao.jpg | Vinataba | CC BY-SA 3.0 | https://commons.wikimedia.org/wiki/File:Hoa_dao.jpg |
 | `mai.webp` | Bình mai vàng (đã tách nền) | Hoa mai vàng chưng Tết 2022 ở St, ng19th1n2022 (6).jpg | Phương Huy | CC0 | https://commons.wikimedia.org/wiki/File:Hoa_mai_v%C3%A0ng_ch%C6%B0ng_T%E1%BA%BFt_2022_%E1%BB%9F_St,_ng19th1n2022_(6).jpg |
-| `fairy1.webp` … `fairy10.webp` | Tiên nữ (đã tách nền, đổi cỡ) | Ảnh do chủ dự án tạo bằng ChatGPT, ngày 12/11/2026 | Chủ dự án (ảnh AI) | Theo điều khoản của OpenAI cho ảnh do người dùng tạo | — |
 | `cloud.webp` | Mây dưới chân tiên nữ (đã tách khỏi nền trời) | Cumulus pileus cloud (9 July 2016) (Yellowstone, Wyoming, USA) 6 | James St. John | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:Cumulus_pileus_cloud_(9_July_2016)_(Yellowstone,_Wyoming,_USA)_6_(28218346991).jpg |
 | `smoke.webp` | Khói hương (đã tách khỏi nền đen, khử màu trong game) | Incense stick.JPG | AntanO | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Incense_stick.JPG |
 | `spark.webp` | Tia lửa, tàn hương (đã tách khỏi nền đen) | Feuerzeug Funken.jpg | Dani.boese | CC BY 3.0 | https://commons.wikimedia.org/wiki/File:Feuerzeug_Funken.jpg |
@@ -19,14 +18,12 @@ Mọi ảnh đều đã được cắt, đổi cỡ hoặc tách nền so với 
 | `crane_*.png`, `koi_*.png` | Hạc bay (12 khung), cá koi (8 khung); đã tách nền từng khung | Ảnh động do chủ dự án tạo bằng công cụ AI, ngày 12/11/2026 | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh | — |
 | `rock.webp`, `buddha_light.webp`, `halo_soft.webp`, `halo_lens.webp` | Đảo đá, Phật bằng ánh sáng, hai hào quang (đã tách nền; ảnh ánh sáng giữ nền đen để vẽ cộng sáng) | Ảnh do chủ dự án tạo bằng công cụ AI, ngày 12/11/2026 | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh | — |
 | `loop_00.webp`–`loop_11.webp` | Tia nắng xuyên lỗ mái cảnh cấp 10, 12 khung, nén JPEG 720×1280 | GIF `tia_nang.gif` do chủ dự án tạo bằng ChatGPT, ngày 13/11/2026 | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh | — |
-| `crack_00.webp`–`crack_11.webp`, `flood_00.webp`–`flood_08.webp` | Không còn dùng từ 13/11/2026 (thay bằng `hall_crack_*` và `hall_flood_*`); 12 và 9 khung, nén JPEG | Ảnh động do chủ dự án tạo bằng công cụ AI, ngày 12/11/2026 | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh | — |
 | `rain_00.webp`–`rain_11.webp` | Vệt mưa trắng trong suốt (cảnh mưa cấp 7), 12 khung từ ảnh động mưa | Ảnh động do chủ dự án tạo bằng công cụ AI, ngày 12/11/2026 | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh | — |
 
 ## Lưu ý
 
 - CC BY và CC BY-SA yêu cầu ghi tên tác giả và giấy phép khi dùng công khai (ví dụ trong phần mô tả buổi live).
 - `person.webp`: ảnh chụp ở Sài Gòn 1967/68, tiêu đề ghi "Photo by John Beck", nhưng người đăng lên Flickr là một tài khoản sưu tầm ("Tommy Japan 79"). Giấy phép CC BY 2.0 là do tài khoản đó gắn; chưa xác minh được họ có quyền cấp phép hay không.
-- Tiên nữ là ảnh AI, không phải người thật. Mỗi lần có quà lớn, game bốc ngẫu nhiên hai ảnh trong số các file `fairyN.png` đang có; thêm bớt file là đổi được bộ tiên nữ (tối đa 10).
 - Còn vẽ bằng code: que hương trên lư (chưa tìm được ảnh que hương tách nền được và có giấy phép tự do), bóng đổ dưới chân người, lớp tối góc, khung viền và mọi chữ (tên, lời chúc, chữ lành). Ánh sáng (hào quang, vòng sáng, luồng sáng, bụi và đom đóm) đều dùng ảnh thật.
 
 ## Thêm ảnh tư thế cho nhân vật
@@ -50,21 +47,16 @@ Lấy từ Wikimedia Commons, đã cắt, đổi cỡ hoặc tách nền.
 | `bg_stars.webp` | Nền trời sao: cấp 5, cấp 11, dấu ấn cấp 12 | 035 Vertical panorama of the Milky Way during Perseids seen from Oeschinensee Photo by Giles Laurent.jpg | Giles Laurent | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:035_Vertical_panorama_of_the_Milky_Way_during_Perseids_seen_from_Oeschinensee_Photo_by_Giles_Laurent.jpg |
 | `lantern.webp` | Đèn trời (đã tách nền), cảnh 5 | Ảnh do chủ dự án tạo bằng ChatGPT, ngày 13/11/2026 (`P13_den_troi.png`) | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh | — |
 | `bg_night.webp` | Nền lễ hội đêm (cấp 6) | Ba Den Mountain summit temple illuminated night fog Tay Ninh Vietnam.jpg | Vivu Vietnam | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Ba_Den_Mountain_summit_temple_illuminated_night_fog_Tay_Ninh_Vietnam.jpg |
-| `lion.webp` | Lân (đã tách nền) | Lion Dance in Chinatown, San Francisco 03.jpg | Mattsjc | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Lion_Dance_in_Chinatown,_San_Francisco_03.jpg |
 | `fwa_00.jpg … fwa_11.jpg, fwb_00.jpg … fwb_11.jpg` | Pháo hoa vàng (fwa) và nhiều màu (fwb), 12 khung mỗi chuỗi, vẽ cộng sáng | GIF `phao_hoa_vang.gif`, `phao_hoa_nhieu_mau.gif` do chủ dự án tạo bằng ChatGPT, ngày 13/11/2026 | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh | — |
 | `bolt_0.jpg … bolt_2.jpg` | Sét: 3 khung, vẽ cộng sáng | GIF `set.gif` do chủ dự án tạo bằng ChatGPT, ngày 13/11/2026 | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh | — |
 | `bg_storm.webp` | Nền mây giông (cấp 7) | Ảnh do chủ dự án tạo bằng ChatGPT, ngày 13/11/2026 (`P16_bg_bao.jpg`) | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh | — |
-| `koi.webp` | Cá chép (đã tách nền) | Ojiya Nishikigoi no Sato ac (3).jpg | Asturio Cantabrio | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Ojiya_Nishikigoi_no_Sato_ac_(3).jpg |
 | `bg_ink.webp` | Tranh sơn thuỷ (cấp 8) | 明 謝時臣 谿山春曉圖 軸-Spring Morning in the Mountains MET 1991 342 254148.jpg | Xie Shichen | CC0 | https://commons.wikimedia.org/wiki/File:%E6%98%8E_%E8%AC%9D%E6%99%82%E8%87%A3_%E8%B0%BF%E5%B1%B1%E6%98%A5%E6%9B%89%E5%9C%96_%E8%BB%B8-Spring_Morning_in_the_Mountains_MET_1991_342_254148.jpg |
-| `crane1.png, crane2.png` | Hạc đầu đỏ đang bay (đã tách nền) | Grus japonensis -Hokkaido, Japan -flying-8.jpg | Alastair Rae from London, United Kingdom | CC BY-SA 2.0 | https://commons.wikimedia.org/wiki/File:Grus_japonensis_-Hokkaido,_Japan_-flying-8.jpg |
-| `crane1.png, crane2.png` | Hạc đầu đỏ đang bay (đã tách nền) | Red-crowned-overhead DSC9943.jpg | Casumma | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Red-crowned-overhead_DSC9943.jpg |
 | `bg_buddha.webp` | Đại Phật trên đỉnh núi (cấp 9) | Ảnh do chủ dự án tạo bằng ChatGPT, ngày 13/11/2026 (`P15_bg_dai_phat.jpg`) | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh | — |
 | `bg_sky.webp` | Trời nhìn từ trên mây (cấp 10, 11) | Clouds in the sky, seen from above (21 July 2010).jpg | No machine-readable author provided. Gauravmaroo assumed (based on copyright cla | Public domain | https://commons.wikimedia.org/wiki/File:Clouds_in_the_sky,_seen_from_above_(21_July_2010).jpg |
 | `bg_seaclouds.webp` | Núi đá và biển mây (cấp 12) | Karst peaks with sea of clouds at sunrise, South view from the top of Mount Nam Xay, Vang Vieng, Laos.jpg | Basile Morin | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Karst_peaks_with_sea_of_clouds_at_sunrise,_South_view_from_the_top_of_Mount_Nam_Xay,_Vang_Vieng,_Laos.jpg |
 | `pagoda.webp` | Chùa Một Cột (đã tách nền, cấp 12) | One Pillar Pagoda, Hanoi (1345321938).jpg | thalling55 | CC BY 2.0 | https://commons.wikimedia.org/wiki/File:One_Pillar_Pagoda,_Hanoi_(1345321938).jpg |
 
 - `buddha_light.webp` (Phật bằng ánh sáng) được dùng cho cấp 11, vẽ cộng sáng trên nền trời sao; cấp 12 dùng `buddha.webp`.
-- `lion.webp` lấy từ bản xem trước cỡ nhỏ nên hơi mờ khi phóng to.
 
 ## Ảnh thêm ngày 13/11/2026 (thay các phần vẽ bằng code)
 
@@ -98,7 +90,6 @@ Lấy từ Wikimedia Commons, đã cắt, đổi cỡ hoặc tách nền.
 | `wood_0`–`wood_3` | Bốn mảnh xà gỗ rơi, cảnh 10 | `P14_xa_go.gif` (4 khung, tách thành 4 mảnh) | Chủ dự án (ảnh AI) | Theo điều khoản của công cụ tạo ảnh |
 
 - Các ảnh `petal.webp`, `lantern.webp`, `bg_buddha.webp`, `bg_storm.webp`, `bg_realm.webp` được thay bằng ảnh mới cùng tên, nên các dòng trên đã được cập nhật.
-- `wood_4.webp` (xà gỗ cũ), `crack_*` và `flood_*` không còn được game dùng. Các file này đã có trong dự án từ trước nên vẫn được giữ; có thể xoá khi không cần.
 - Ba ảnh P6–P8 cũ (`hall_nut.jpg`, `hall_nuoc1.jpg`, `hall_ngap.jpg`) đã được xoá khỏi dự án; bản gốc vẫn còn trong thư mục Screenshots.
 - Cảnh 4 không còn đổi phòng: `hall_crack_*` và `hall_flood_*` (mục dưới) được dựng từ đúng nền chánh điện mà game đang vẽ.
 
@@ -135,4 +126,8 @@ Mẫu thu sẵn lấy từ Wikimedia Commons, đã cắt, lặp vòng hoặc đ�
 
 ## Nén ảnh (thêm ngày 14/11/2026)
 
-Ảnh trong `public/assets/` là bản WebP nén từ PNG/JPG gốc, kích thước giữ nguyên: `cwebp -q 86` cho ảnh có alpha, `-q 82` cho ảnh thường, tăng chất lượng với ảnh có độ giống thấp. Bản gốc vẫn còn trong lịch sử git.
+Ảnh trong `public/assets/` là bản WebP nén từ PNG/JPG gốc, kích thước giữ nguyên: `cwebp -q 86` cho ảnh có alpha, `-q 82` cho ảnh thường, tăng chất lượng với ảnh có độ giống thấp. Bản gốc PNG/JPG đã bị xoá khỏi lịch sử git khi viết lại lịch sử (14/11/2026).
+
+## Xoá file không dùng (14/11/2026)
+
+Đã xoá 36 file mà game không đọc ở bất kỳ chế độ nào: `crack_00`–`crack_11`, `flood_00`–`flood_08`, `wood_4`, `crane1`, `crane2`, `koi`, `lion` (đều dạng `.webp`) và `fairy1`–`fairy10`. Tiên nữ từng được tải nhưng không bao giờ được vẽ: đoạn vẽ tiên dùng hình vector, nên đã bỏ phần tải ảnh tiên. Nếu cần lại, lấy từ bản sao lưu của chủ dự án.
