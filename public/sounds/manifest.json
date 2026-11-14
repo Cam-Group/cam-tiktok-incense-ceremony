@@ -117,6 +117,13 @@
   "gain": 1.0,
   "loop": false
  },
+ "chant_hall": {
+  "files": [
+   "chant_hall.mp3"
+  ],
+  "gain": 0.123,
+  "loop": true
+ },
  "chime": {
   "files": [
    "chime_00.mp3",

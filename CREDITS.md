@@ -103,7 +103,7 @@ Lấy từ Wikimedia Commons, đã cắt, đổi cỡ hoặc tách nền.
 
 Toàn bộ âm thanh là file gốc từ [Freesound](https://freesound.org), chỉ dùng giấy phép CC0 và CC BY. `tools/make_audio.py` cắt, lặp vòng và chỉnh mức các file này thành `public/sounds/`. Mẫu Wikimedia Commons và âm tổng hợp cũ đã được thay (xem lịch sử git).
 
-- CC0 1.0: không bắt buộc ghi nguồn. Có 84 file.
+- CC0 1.0: không bắt buộc ghi nguồn. Có 85 file.
 - CC BY: phải ghi tên tác giả và liên kết. Có 4 file (trống taiko). Tên và liên kết nằm trong bảng.
 - Tải lại: cần token OAuth của tài khoản Freesound (xem README). Tải từng id vào thư mục `AUDIO_SRC/<id>/`, rồi chạy `AUDIO_SRC=thư_mục python tools/make_audio.py`.
 
@@ -131,6 +131,7 @@ Toàn bộ âm thanh là file gốc từ [Freesound](https://freesound.org), ch�
 | `candle_00.mp3` | 423810 | Match strike 02 | scalywhale | CC0 1.0 | https://freesound.org/people/scalywhale/sounds/423810/ |
 | `candle_01.mp3` | 237391 | Match Strike 02.wav | squareal | CC0 1.0 | https://freesound.org/people/squareal/sounds/237391/ |
 | `candle_02.mp3` | 742836 | Lighter Spark | Capt.Jack | CC0 1.0 | https://freesound.org/people/Capt.Jack/sounds/742836/ |
+| `chant_hall.mp3` | 383167 | Buddhist Monk Chant / prayer, China | mycompasstv | CC0 1.0 | https://freesound.org/people/mycompasstv/sounds/383167/ |
 | `chime_00.mp3` | 361427 | Wind_Chime_Monte_00.wav | monte32 | CC0 1.0 | https://freesound.org/people/monte32/sounds/361427/ |
 | `chime_01.mp3` | 398494 | wind chimes - single 01.wav | Anthousai | CC0 1.0 | https://freesound.org/people/Anthousai/sounds/398494/ |
 | `chime_02.mp3` | 477437 | Wind Chime 1 | fijiman | CC0 1.0 | https://freesound.org/people/fijiman/sounds/477437/ |
