@@ -101,28 +101,102 @@ Lấy từ Wikimedia Commons, đã cắt, đổi cỡ hoặc tách nền.
 
 ## Âm thanh (thêm ngày 14/11/2026)
 
-Mẫu thu sẵn lấy từ Wikimedia Commons, đã cắt, lặp vòng hoặc đổi cao độ cho hợp cảnh. Các âm còn lại tổng hợp bằng `tools/make_audio.py`, không dùng mẫu ngoài. Tên gốc trong bảng là tên file cần đặt trong thư mục `AUDIO_SRC` khi chạy lại script.
+Toàn bộ âm thanh là file gốc từ [Freesound](https://freesound.org), chỉ dùng giấy phép CC0 và CC BY. `tools/make_audio.py` cắt, lặp vòng và chỉnh mức các file này thành `public/sounds/`. Mẫu Wikimedia Commons và âm tổng hợp cũ đã được thay (xem lịch sử git).
 
-| File (trong `public/sounds/`) | Dùng làm | Tên gốc trên Commons | Tác giả | Giấy phép | Trang gốc |
+- CC0 1.0: không bắt buộc ghi nguồn. Có 84 file.
+- CC BY: phải ghi tên tác giả và liên kết. Có 4 file (trống taiko). Tên và liên kết nằm trong bảng.
+- Tải lại: cần token OAuth của tài khoản Freesound (xem README). Tải từng id vào thư mục `AUDIO_SRC/<id>/`, rồi chạy `AUDIO_SRC=thư_mục python tools/make_audio.py`.
+
+| File (trong `public/sounds/`) | Id Freesound | Tên trên Freesound | Tác giả | Giấy phép | Trang gốc |
 |---|---|---|---|---|---|
-| `amb_rain.mp3` | Mưa, nền cảnh 7 | Listening to Raindrops (1035382 - heavy loop).mp3 | NASA | Public domain | https://commons.wikimedia.org/wiki/File:Listening_to_Raindrops_(1035382_-_heavy_loop).mp3 |
-| `thunder_00.mp3` | Sét đánh, cảnh 7 | Nosferatu thunderclap - Richard Humphries.wav | Richard Humphries | CC BY 4.0 | https://commons.wikimedia.org/wiki/File:Nosferatu_thunderclap_-_Richard_Humphries.wav |
-| `amb_wind.mp3` | Gió, nền cảnh 10 và 12 | Howling wind.ogg | Tvabutzku1234 | CC0 | https://commons.wikimedia.org/wiki/File:Howling_wind.ogg |
-| `applause_00.mp3`, `applause_01.mp3` | Vỗ tay, cảnh 6 | Applause i.ogg; Slow starting applause.ogg | thore; stephan | Public domain | https://commons.wikimedia.org/wiki/File:Applause_i.ogg ; https://commons.wikimedia.org/wiki/File:Slow_starting_applause.ogg |
-| `amb_festival.mp3` | Đám đông hò reo, cảnh 6 | Street parade carnival people yelling kamelle kamelle.ogg | stephan | Public domain | https://commons.wikimedia.org/wiki/File:Street_parade_carnival_people_yelling_kamelle_kamelle.ogg |
-| `amb_frogs.mp3` | Ếch kêu, hồ sen cảnh 4 | Night Chorus of Frogs and Toads in Niger Delta.ogg | ElemePodcast | CC BY 4.0 | https://commons.wikimedia.org/wiki/File:Night_Chorus_of_Frogs_and_Toads_in_Niger_Delta.ogg |
-| `splash_00`–`splash_05` | Cá nhảy, nước bắn | Bathtub water splashes.ogg | gradha | Public domain | https://commons.wikimedia.org/wiki/File:Bathtub_water_splashes.ogg |
-| `bell_00`–`bell_02` | Chuông chùa, quà được nhận | Gong or bell vibrant (short).ogg; Gong or bell vibrant.ogg | PDSounds; stephan | CC0; Public domain | https://commons.wikimedia.org/wiki/File:Gong_or_bell_vibrant_(short).ogg ; https://commons.wikimedia.org/wiki/File:Gong_or_bell_vibrant.ogg |
-| `gong_00.mp3` | Đại cồng, cảnh 9 | Gong55.ogg | stephan | CC0 | https://commons.wikimedia.org/wiki/File:Gong55.ogg |
-| `taiko_00`–`taiko_03` | Trống tự đánh, cảnh 6 | 02 Taiko2 (short).oga | Scott Harding (biểu diễn bởi Singapore Wind Symphony) | CC0 | https://commons.wikimedia.org/wiki/File:02_Taiko2_(short).oga |
-| `firework_burst_00`–`firework_burst_02` | Pháo hoa, cảnh 6 | Fireworks in distance 6.ogg | ezwa | Public domain | https://commons.wikimedia.org/wiki/File:Fireworks_in_distance_6.ogg |
-| `scream_00`–`scream_02` | Tiếng hét khi trần sập, cảnh 10 | Scream-c.wav | Raspberry Pi Foundation, Andy Oakley | CC BY-SA 4.0 | https://commons.wikimedia.org/wiki/File:Scream-c.wav |
-| `step_church_00`–`step_church_03` | Bước chân trong nhà thờ có vang | Church people walking steps with reverb.ogg | stephan | Public domain | https://commons.wikimedia.org/wiki/File:Church_people_walking_steps_with_reverb.ogg |
-| Các file còn lại | Âm tổng hợp: bước chân, trần sập, rồng gầm, vỗ cánh, gió, dế, giọt nước, chuông, trống, pháo, chuyển cảnh | Tổng hợp bằng `tools/make_audio.py` | Chủ dự án | Thuộc dự án | — |
-
-- Mẫu CC BY-SA 4.0 (tiếng hét): các đoạn đã cắt và đổi cao độ là bản dẫn xuất, nên cũng theo CC BY-SA 4.0 và phải ghi nguồn.
-- Mẫu CC BY (sấm, ếch): khi công bố phải ghi tác giả và nguồn như bảng trên.
-- Chạy lại `tools/make_audio.py` cần `AUDIO_SRC` trỏ tới thư mục chứa các file gốc (để nguyên tên trên Commons), và các gói `numpy scipy soundfile av`.
+| `amb_buddha.mp3` | 468041 | Buddhist temple hum 02 | rucisko | CC0 1.0 | https://freesound.org/people/rucisko/sounds/468041/ |
+| `amb_festival.mp3` | 623605 | Weekend Fair in Chapultepec Park Mexico City | khenshom | CC0 1.0 | https://freesound.org/people/khenshom/sounds/623605/ |
+| `amb_frogs.mp3` | 711047 | Relaxing Nighttime Backyard Nature Sounds - Frogs, Crickets, Bugs | inkedflorist | CC0 1.0 | https://freesound.org/people/inkedflorist/sounds/711047/ |
+| `amb_hall.mp3` | 648415 | sagrada_ambience.wav | noisymichael | CC0 1.0 | https://freesound.org/people/noisymichael/sounds/648415/ |
+| `amb_ink.mp3` | 466123 | Interior bedroom apartment night room tone roomtone.wav | franciscopcoutinho | CC0 1.0 | https://freesound.org/people/franciscopcoutinho/sounds/466123/ |
+| `amb_night.mp3` | 436528 | Night ambience with crickets | KikeVilaplana | CC0 1.0 | https://freesound.org/people/KikeVilaplana/sounds/436528/ |
+| `amb_pond.mp3` | 573823 | Calm pond bright wind in reeds geese water TTP 190401.flac | TRP | CC0 1.0 | https://freesound.org/people/TRP/sounds/573823/ |
+| `amb_rain.mp3` | 531871 | RainLoop.wav | plyboard9 | CC0 1.0 | https://freesound.org/people/plyboard9/sounds/531871/ |
+| `amb_realm.mp3` | 697217 | Looping Gentle Wind Ambience on an Open Desert Plain.wav | dhallcomposer | CC0 1.0 | https://freesound.org/people/dhallcomposer/sounds/697217/ |
+| `amb_sky.mp3` | 459981 | Strong Wind | florianreichelt | CC0 1.0 | https://freesound.org/people/florianreichelt/sounds/459981/ |
+| `amb_wind.mp3` | 546759 | Ambiance_Wind_Trees_Leaves_Moderate_Loop_Stereo.wav | Nox_Sound | CC0 1.0 | https://freesound.org/people/Nox_Sound/sounds/546759/ |
+| `applause_00.mp3` | 478412 | Concert audience applause 3 | thaighaudio | CC0 1.0 | https://freesound.org/people/thaighaudio/sounds/478412/ |
+| `applause_01.mp3` | 432329 | Medium Crowd Clapping 2 | jentlemen | CC0 1.0 | https://freesound.org/people/jentlemen/sounds/432329/ |
+| `bell_00.mp3` | 668647 | temple_bell_002.wav | tec_studio | CC0 1.0 | https://freesound.org/people/tec_studio/sounds/668647/ |
+| `bell_01.mp3` | 368821 | Japan_Kyoto_Temple_Donating_Bell2.wav | RutgerMuller | CC0 1.0 | https://freesound.org/people/RutgerMuller/sounds/368821/ |
+| `bell_02.mp3` | 271626 | 2HinduTemplesBells1.wav | LoopUdu | CC0 1.0 | https://freesound.org/people/LoopUdu/sounds/271626/ |
+| `boom.mp3` | 826058 | BURIED PROFOUND OBSCURE BOOM | ROHHSADOTCOM | CC0 1.0 | https://freesound.org/people/ROHHSADOTCOM/sounds/826058/ |
+| `bow_00.mp3` | 493418 | Clothes Rustling Movement 1_1 | Joao_Janz | CC0 1.0 | https://freesound.org/people/Joao_Janz/sounds/493418/ |
+| `bow_01.mp3` | 493415 | Clothes Rustling Movement 14_2 | Joao_Janz | CC0 1.0 | https://freesound.org/people/Joao_Janz/sounds/493415/ |
+| `candle_00.mp3` | 423810 | Match strike 02 | scalywhale | CC0 1.0 | https://freesound.org/people/scalywhale/sounds/423810/ |
+| `candle_01.mp3` | 237391 | Match Strike 02.wav | squareal | CC0 1.0 | https://freesound.org/people/squareal/sounds/237391/ |
+| `candle_02.mp3` | 742836 | Lighter Spark | Capt.Jack | CC0 1.0 | https://freesound.org/people/Capt.Jack/sounds/742836/ |
+| `chime_00.mp3` | 361427 | Wind_Chime_Monte_00.wav | monte32 | CC0 1.0 | https://freesound.org/people/monte32/sounds/361427/ |
+| `chime_01.mp3` | 398494 | wind chimes - single 01.wav | Anthousai | CC0 1.0 | https://freesound.org/people/Anthousai/sounds/398494/ |
+| `chime_02.mp3` | 477437 | Wind Chime 1 | fijiman | CC0 1.0 | https://freesound.org/people/fijiman/sounds/477437/ |
+| `collapse_00.mp3` | 721600 | Bakers house collapse | DasWaff | CC0 1.0 | https://freesound.org/people/DasWaff/sounds/721600/ |
+| `crack_00.mp3` | 669453 | SFX_wood_crack_destroy_burst_03.wav | EricsSoundschmiede | CC0 1.0 | https://freesound.org/people/EricsSoundschmiede/sounds/669453/ |
+| `crack_01.mp3` | 183453 | Wood Crack 1 | utsuru | CC0 1.0 | https://freesound.org/people/utsuru/sounds/183453/ |
+| `creak_00.mp3` | 590157 | Creaking Wood 9.wav | Greg_Surr | CC0 1.0 | https://freesound.org/people/Greg_Surr/sounds/590157/ |
+| `creak_01.mp3` | 802573 | Creaking Floorboards | qubodup | CC0 1.0 | https://freesound.org/people/qubodup/sounds/802573/ |
+| `debris_00.mp3` | 569742 | Gravel Stone Dirt Debris Falling Small 1 9 | Sheyvan | CC0 1.0 | https://freesound.org/people/Sheyvan/sounds/569742/ |
+| `debris_01.mp3` | 336023 | Rocks.wav | adamgryu | CC0 1.0 | https://freesound.org/people/adamgryu/sounds/336023/ |
+| `debris_02.mp3` | 132929 | Explosion and Rubble/Debris | deleted_user_1887925 | CC0 1.0 | https://freesound.org/people/deleted_user_1887925/sounds/132929/ |
+| `dragon_roar_00.mp3` | 132871 | Monster Low Roar.wav | ecfike | CC0 1.0 | https://freesound.org/people/ecfike/sounds/132871/ |
+| `dragon_roar_01.mp3` | 476083 | cloverfield roar.wav | icyjim | CC0 1.0 | https://freesound.org/people/icyjim/sounds/476083/ |
+| `dragon_wings.mp3` | 596541 | Large Wings Flapping - Foley.wav | tothrec2 | CC0 1.0 | https://freesound.org/people/tothrec2/sounds/596541/ |
+| `drip_00.mp3` | 51754 | Water Drip 01.wav | erkanozan | CC0 1.0 | https://freesound.org/people/erkanozan/sounds/51754/ |
+| `drip_01.mp3` | 643661 | Drip of Water or Water Drop.mp3 | SnowFightStudios | CC0 1.0 | https://freesound.org/people/SnowFightStudios/sounds/643661/ |
+| `drip_02.mp3` | 422873 | Water_Dripping_Loop.wav | IPaddeh | CC0 1.0 | https://freesound.org/people/IPaddeh/sounds/422873/ |
+| `drip_03.mp3` | 842162 | Multi Drip Free | AardsReal | CC0 1.0 | https://freesound.org/people/AardsReal/sounds/842162/ |
+| `firework_burst_00.mp3` | 336008 | Whistle and Explosion Single_Firework | Rudmer_Rotteveel | CC0 1.0 | https://freesound.org/people/Rudmer_Rotteveel/sounds/336008/ |
+| `firework_burst_01.mp3` | 336010 | Sharp Explosion 5 (of 5) | Rudmer_Rotteveel | CC0 1.0 | https://freesound.org/people/Rudmer_Rotteveel/sounds/336010/ |
+| `firework_burst_02.mp3` | 736642 | Fireworks2 | vialgames | CC0 1.0 | https://freesound.org/people/vialgames/sounds/736642/ |
+| `firework_launch_00.mp3` | 695731 | Bottle Rocket Launch #2.wav | Bryce835 | CC0 1.0 | https://freesound.org/people/Bryce835/sounds/695731/ |
+| `firework_launch_01.mp3` | 140726 | tiny_rocket.wav | j1987 | CC0 1.0 | https://freesound.org/people/j1987/sounds/140726/ |
+| `flood_rise.mp3` | 530168 | Rapidly Flowing Water (loopable).wav | Osiruswaltz | CC0 1.0 | https://freesound.org/people/Osiruswaltz/sounds/530168/ |
+| `fog.mp3` | 521043 | Whoosh_Simple_ER_SFX_2.wav | Alex_hears_things | CC0 1.0 | https://freesound.org/people/Alex_hears_things/sounds/521043/ |
+| `gift.mp3` | 510735 | Coin dropped on table 5 | HoseNoseSounds | CC0 1.0 | https://freesound.org/people/HoseNoseSounds/sounds/510735/ |
+| `gold_dust.mp3` | 521886 | Shimmery.wav | opticaillusions | CC0 1.0 | https://freesound.org/people/opticaillusions/sounds/521886/ |
+| `gong_00.mp3` | 194433 | Gong2_96Khz24bit.wav | psuess | CC0 1.0 | https://freesound.org/people/psuess/sounds/194433/ |
+| `incense.mp3` | 650574 | fire crackling loop.wav | soundofsong | CC0 1.0 | https://freesound.org/people/soundofsong/sounds/650574/ |
+| `ink.mp3` | 428338 | Underlining Stroke on Paper | zembacraftworks | CC0 1.0 | https://freesound.org/people/zembacraftworks/sounds/428338/ |
+| `lantern_00.mp3` | 181774 | rustling paper.wav | keweldog | CC0 1.0 | https://freesound.org/people/keweldog/sounds/181774/ |
+| `lantern_01.mp3` | 426816 | paper_rustle_1.wav | StarTowerStudio | CC0 1.0 | https://freesound.org/people/StarTowerStudio/sounds/426816/ |
+| `lion_drum_00.mp3` | 712299 | mu lan | bobbers0n | CC0 1.0 | https://freesound.org/people/bobbers0n/sounds/712299/ |
+| `lion_drum_01.mp3` | 878070 | Perc_Large Drum_South Lion Dance Drum 1_Vel 2 | CAT-FOX_ALEX | CC0 1.0 | https://freesound.org/people/CAT-FOX_ALEX/sounds/878070/ |
+| `petal_00.mp3` | 443065 | Leaves_Rustling_Edited.wav | AmberdeMeillon | CC0 1.0 | https://freesound.org/people/AmberdeMeillon/sounds/443065/ |
+| `petal_01.mp3` | 635053 | Rustling Foliage in Forest | sillygrizzlies | CC0 1.0 | https://freesound.org/people/sillygrizzlies/sounds/635053/ |
+| `radiance.mp3` | 521885 | Glittery Glissando.wav | opticaillusions | CC0 1.0 | https://freesound.org/people/opticaillusions/sounds/521885/ |
+| `scream_00.mp3` | 733539 | Little woman screaming sound effect | Mastersoundboy2005 | CC0 1.0 | https://freesound.org/people/Mastersoundboy2005/sounds/733539/ |
+| `scream_01.mp3` | 675049 | S11-11 A few young women scream.wav | craigsmith | CC0 1.0 | https://freesound.org/people/craigsmith/sounds/675049/ |
+| `scream_02.mp3` | 482821 | R28-45-Woman Screams in Rumbling Space.wav | craigsmith | CC0 1.0 | https://freesound.org/people/craigsmith/sounds/482821/ |
+| `splash_00.mp3` | 867456 | Waboba Moon Ball Water Splash 1 | qubodup | CC0 1.0 | https://freesound.org/people/qubodup/sounds/867456/ |
+| `splash_01.mp3` | 867457 | Waboba Moon Ball Water Splash 2 | qubodup | CC0 1.0 | https://freesound.org/people/qubodup/sounds/867457/ |
+| `splash_02.mp3` | 867458 | Waboba Moon Ball Water Splash 3 | qubodup | CC0 1.0 | https://freesound.org/people/qubodup/sounds/867458/ |
+| `splash_03.mp3` | 867459 | Waboba Moon Ball Water Splash 4 | qubodup | CC0 1.0 | https://freesound.org/people/qubodup/sounds/867459/ |
+| `splash_04.mp3` | 867460 | Waboba Moon Ball Water Splash 5 | qubodup | CC0 1.0 | https://freesound.org/people/qubodup/sounds/867460/ |
+| `splash_05.mp3` | 867463 | Waboba Moon Ball Water Splash 8 | qubodup | CC0 1.0 | https://freesound.org/people/qubodup/sounds/867463/ |
+| `step_church_00.mp3` | 521590 | Hiking Boot Footsteps on Stone | Fission9 | CC0 1.0 | https://freesound.org/people/Fission9/sounds/521590/ |
+| `step_church_01.mp3` | 422686 | footsteps on stone pavement.wav | niamhd00145229 | CC0 1.0 | https://freesound.org/people/niamhd00145229/sounds/422686/ |
+| `step_church_02.mp3` | 231851 | Walk Stone | alegemaate | CC0 1.0 | https://freesound.org/people/alegemaate/sounds/231851/ |
+| `step_church_03.mp3` | 422755 | Footsteps_Stone_3.wav | KieranKeegan | CC0 1.0 | https://freesound.org/people/KieranKeegan/sounds/422755/ |
+| `step_water_00.mp3` | 861369 | Splashing Footsteps Shallow Water | ChristopherJngs | CC0 1.0 | https://freesound.org/people/ChristopherJngs/sounds/861369/ |
+| `step_water_01.mp3` | 624166 | wet_footsteps_outside_02.flac | wwstudioswastaken | CC0 1.0 | https://freesound.org/people/wwstudioswastaken/sounds/624166/ |
+| `step_wood_00.mp3` | 367050 | Footsteps with floor creak | TheBuilder15 | CC0 1.0 | https://freesound.org/people/TheBuilder15/sounds/367050/ |
+| `step_wood_01.mp3` | 398779 | footsteps - wood stairs 01.wav | Anthousai | CC0 1.0 | https://freesound.org/people/Anthousai/sounds/398779/ |
+| `step_wood_02.mp3` | 398783 | footsteps - wood stairs 03.wav | Anthousai | CC0 1.0 | https://freesound.org/people/Anthousai/sounds/398783/ |
+| `taiko_00.mp3` | 82712 | TAIKO DRUM 001.wav | sandyrb | CC BY 4.0 | https://freesound.org/people/sandyrb/sounds/82712/ |
+| `taiko_01.mp3` | 95624 | taiko1.aif | whatsanickname4u | CC BY 3.0 | https://freesound.org/people/whatsanickname4u/sounds/95624/ |
+| `taiko_02.mp3` | 203344 | 123-Taiko-Open.wav | klemmy | CC BY 3.0 | https://freesound.org/people/klemmy/sounds/203344/ |
+| `taiko_03.mp3` | 584131 | Taikodrum (41 hz).wav | tarane468 | CC BY 4.0 | https://freesound.org/people/tarane468/sounds/584131/ |
+| `thunder_00.mp3` | 234736 | thunder rumble 1.wav | FenrirFangs | CC0 1.0 | https://freesound.org/people/FenrirFangs/sounds/234736/ |
+| `time_stop.mp3` | 240934 | NEPTUN-Solo-07 Tibetan Singing Bowl | the_very_Real_Horst | CC0 1.0 | https://freesound.org/people/the_very_Real_Horst/sounds/240934/ |
+| `uproot.mp3` | 494071 | Big Tree Fall in Forest | Kinoton | CC0 1.0 | https://freesound.org/people/Kinoton/sounds/494071/ |
+| `whoosh_00.mp3` | 719636 | Fast whoosh, bamboo swoosh through air, version 1 | zapsplat.com | CC0 1.0 | https://freesound.org/people/zapsplat.com/sounds/719636/ |
+| `whoosh_01.mp3` | 733891 | Whoosh Triple | velcronator | CC0 1.0 | https://freesound.org/people/velcronator/sounds/733891/ |
+| `wind_gust_00.mp3` | 726317 | wind 6 | ZIP.Creates | CC0 1.0 | https://freesound.org/people/ZIP.Creates/sounds/726317/ |
+| `wind_gust_01.mp3` | 726312 | wind 1 | ZIP.Creates | CC0 1.0 | https://freesound.org/people/ZIP.Creates/sounds/726312/ |
 
 ## Nén ảnh (thêm ngày 14/11/2026)
 
