@@ -35,6 +35,8 @@ const SOUND = (() => {
   // Gọi trong thao tác của người dùng: bật ngữ cảnh, tải trước mọi file, bật lại nền nếu chưa có
   function unlock() {
     if (!init()) return;
+    initBed();
+    Promise.resolve(bedEl?.play?.()).catch(() => {}); // nhạc nền: trình duyệt chưa cho phát thì chạm lần sau sẽ thử lại
     Promise.resolve(ac.resume?.()).then(() => setLayers(wanted.size ? [...wanted] : ['amb_hall'], 3));
     loadManifest().then(m => { if (m) for (const c of Object.values(m)) for (const f of c.files) load(f); });
   }
@@ -77,5 +79,25 @@ const SOUND = (() => {
       }
     });
   }
-  return { unlock, play, setLayers, running };
+  // Nhạc nền: một file dài, phát từ lúc mở khoá và lặp khi hết. Phát qua thẻ audio nên không giải mã cả file vào bộ nhớ.
+  // bed(on): bật/tắt theo nơi của cảnh. Khi tắt, nhạc vẫn chạy để bật lại đúng chỗ đang dở. duck(on): giảm nhạc khi có lời chúc.
+  const BED = .4, DUCK = .3; // hệ số âm lượng của nhạc nền, và khi bị giảm
+  const bedEl = typeof Audio === 'function' ? Object.assign(new Audio('sounds/nhac_nen.mp3'), { loop: true, preload: 'auto' }) : null;
+  let bedOn = true, bedGain = null, duckGain = null;
+  function initBed() { // nối thẻ audio vào Web Audio, một lần; lỗi thì chỉ mất nhạc nền, game vẫn chạy
+    if (bedGain || !bedEl || !ac) return;
+    try {
+      bedGain = ac.createGain(); bedGain.gain.value = bedOn ? BED : 0; bedGain.connect(amb);
+      duckGain = ac.createGain(); duckGain.connect(bedGain);
+      ac.createMediaElementSource(bedEl).connect(duckGain);
+    } catch { bedGain = duckGain = null; }
+  }
+  function bed(on, fade = 1.5) {
+    bedOn = on;
+    if (bedGain) bedGain.gain.setTargetAtTime(on ? BED : 0, ac.currentTime, fade / 3);
+  }
+  function duck(on) {
+    if (duckGain) duckGain.gain.setTargetAtTime(on ? DUCK : 1, ac.currentTime, .3);
+  }
+  return { unlock, play, setLayers, running, bed, duck };
 })();

@@ -511,6 +511,7 @@ function fireCues(sc, from, to) {
   const c = SCENE_SOUND[sc.lvl] || {};
   (c.cues || []).forEach(([t, name, opt]) => { if (t > from && t <= to) SOUND.play(name, opt); });
   (c.amb || []).forEach(([t, names]) => { if (t > from && t <= to) SOUND.setLayers(names, 1.5); });
+  (c.bed || []).forEach(([t, on]) => { if (t > from && t <= to) SOUND.bed(on, 1.5); });
 }
 function startScene(lvl, ps) {
   const sc = { lvl, s: 0, ps, home: false };

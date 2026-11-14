@@ -117,13 +117,6 @@
   "gain": 1.0,
   "loop": false
  },
- "nhac_nen": {
-  "files": [
-   "nhac_nen.mp3"
-  ],
-  "gain": 0.364,
-  "loop": true
- },
  "chime": {
   "files": [
    "chime_00.mp3",

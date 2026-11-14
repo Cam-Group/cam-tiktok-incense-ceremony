@@ -232,6 +232,7 @@ const speech = createSpeechController({
 });
 voiceButton.onclick = () => { speech.enable(); SOUND.unlock(); }; // không await trước enable: giữ thao tác trực tiếp cho iOS
 ['pointerdown', 'keydown'].forEach(ev => addEventListener(ev, () => { speech.ensure(); SOUND.unlock(); })); // chạm đầu tiên mở khoá giọng đọc và âm thanh, không có nút tắt
+SOUND.unlock(); // thử bật ngay: trình duyệt cho phép thì nhạc nền chạy từ lúc mở trang, không thì chờ cú chạm đầu tiên
 const speak = (text, done) => speech.speak(text, done);
 document.addEventListener('visibilitychange', () => { if (document.hidden) speech.reset(); });
 addEventListener('pagehide', () => speech.reset());
@@ -290,7 +291,8 @@ function update(dt, now) {
           ? `Kính mời ${spoken} lên dâng hương. Xin tặng quý vị bài thơ chúc phúc. ${lines.join(' ')}`
           : `Xin mời ${spoken} lên dâng hương. Kính chúc quý vị ${wishes.join('. ')}.`;
         const id = ++prayId;
-        speak(text, () => { if (id === prayId) speechDone = true; });
+        SOUND.duck(true); // có lời chúc: giảm nhạc nền
+        speak(text, () => { if (id === prayId) { speechDone = true; SOUND.duck(false); } });
         ps.forEach((p, i) => { p.bow = true; SOUND.play('bow', { pan: panOf(p), gain: depthGain(p), delay: i * .15 + Math.random() * .1 }); });
         if (tier > 1) SOUND.play('bell', { gain: .8 });
       }
@@ -307,6 +309,7 @@ function update(dt, now) {
       if (scene?.done && speechDone) { // màn diễn và lời chúc đều xong: hàng này đi ra, hàng sau dồn lên
         scene = null;
         SOUND.setLayers(['amb_hall'], 2.5);
+        SOUND.bed(true, 2.5); // hàng đi ra xong: nhạc nền trở lại
         ps.forEach(p => {
           const dir = REAL && charReady(CHARS[p.ch]) ? CHARS[p.ch].dir : p.x < W / 2 ? -1 : 1; // nhân vật ảnh động đi ra theo hướng của chính nó
           p.bow = false; p.leaving = true; p.tx = dir < 0 ? -110 : W + 110; p.ty = p.y + 70;

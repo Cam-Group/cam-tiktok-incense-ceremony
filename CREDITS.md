@@ -101,11 +101,11 @@ Lấy từ Wikimedia Commons, đã cắt, đổi cỡ hoặc tách nền.
 
 ## Âm thanh (thêm ngày 14/11/2026)
 
-Phần lớn âm thanh là file gốc từ [Freesound](https://freesound.org), chỉ dùng giấy phép CC0 và CC BY. Một file, `nhac_nen.mp3`, cắt từ file mp3 do chủ dự án cung cấp (xem bên dưới). `tools/make_audio.py` cắt, lặp vòng và chỉnh mức các file này thành `public/sounds/`. Mẫu Wikimedia Commons và âm tổng hợp cũ đã được thay (xem lịch sử git).
+Phần lớn âm thanh là file gốc từ [Freesound](https://freesound.org), chỉ dùng giấy phép CC0 và CC BY. Một file, `nhac_nen.mp3`, là bản gốc do chủ dự án cung cấp, không cắt (xem bên dưới). `tools/make_audio.py` cắt, lặp vòng và chỉnh mức các file này thành `public/sounds/`. Mẫu Wikimedia Commons và âm tổng hợp cũ đã được thay (xem lịch sử git).
 
 - CC0 1.0: không bắt buộc ghi nguồn. Có 84 file.
 - CC BY: phải ghi tên tác giả và liên kết. Có 4 file (trống taiko). Tên và liên kết nằm trong bảng.
-- `nhac_nen.mp3`: chưa xác minh giấy phép. Nguồn là file mp3 do chủ dự án cung cấp, tên gốc "Thời khóa Niệm Phật - Lễ Phật (6 chữ) 30 phút sáng tối ở gia đình", dài 34 phút. Video tham khảo: https://www.youtube.com/watch?v=2GCAsUwrfhc (có thể không phải bản này). Chủ dự án chịu trách nhiệm về quyền sử dụng. File gốc không đưa vào repo; để build lại, đặt vào `AUDIO_SRC/nhac_nen/`. Nếu không dùng được, thay bằng `chant_hall` (Freesound 383167, CC0) ở commit `5c35b4b`.
+- `nhac_nen.mp3`: chưa xác minh giấy phép. Nguồn là file mp3 do chủ dự án cung cấp, tên gốc "Thời khóa Niệm Phật - Lễ Phật (6 chữ) 30 phút sáng tối ở gia đình", dài 34 phút. Video tham khảo: https://www.youtube.com/watch?v=2GCAsUwrfhc (có thể không phải bản này). Chủ dự án chịu trách nhiệm về quyền sử dụng. File này nằm trong repo (phát liên tục, lặp khi hết); để build lại, đặt bản gốc vào `AUDIO_SRC/nhac_nen/`. Nếu không dùng được, thay bằng `chant_hall` (Freesound 383167, CC0) ở commit `5c35b4b`.
 - Tải lại: cần token OAuth của tài khoản Freesound (xem README). Tải từng id vào thư mục `AUDIO_SRC/<id>/`, rồi chạy `AUDIO_SRC=thư_mục python tools/make_audio.py`.
 
 | File (trong `public/sounds/`) | Id Freesound | Tên trên Freesound | Tác giả | Giấy phép | Trang gốc |
@@ -132,7 +132,7 @@ Phần lớn âm thanh là file gốc từ [Freesound](https://freesound.org), c
 | `candle_00.mp3` | 423810 | Match strike 02 | scalywhale | CC0 1.0 | https://freesound.org/people/scalywhale/sounds/423810/ |
 | `candle_01.mp3` | 237391 | Match Strike 02.wav | squareal | CC0 1.0 | https://freesound.org/people/squareal/sounds/237391/ |
 | `candle_02.mp3` | 742836 | Lighter Spark | Capt.Jack | CC0 1.0 | https://freesound.org/people/Capt.Jack/sounds/742836/ |
-| `nhac_nen.mp3` | — | Thời khóa Niệm Phật - Lễ Phật (6 chữ) 30 phút sáng tối ở gia đình (không phải Freesound), cắt 60 giây | Không rõ | Chưa xác minh | https://www.youtube.com/watch?v=2GCAsUwrfhc (video tham khảo) |
+| `nhac_nen.mp3` | — | Thời khóa Niệm Phật - Lễ Phật (6 chữ) 30 phút sáng tối ở gia đình (không phải Freesound), bản gốc, không cắt | Không rõ | Chưa xác minh | https://www.youtube.com/watch?v=2GCAsUwrfhc (video tham khảo) |
 | `chime_00.mp3` | 361427 | Wind_Chime_Monte_00.wav | monte32 | CC0 1.0 | https://freesound.org/people/monte32/sounds/361427/ |
 | `chime_01.mp3` | 398494 | wind chimes - single 01.wav | Anthousai | CC0 1.0 | https://freesound.org/people/Anthousai/sounds/398494/ |
 | `chime_02.mp3` | 477437 | Wind Chime 1 | fijiman | CC0 1.0 | https://freesound.org/people/fijiman/sounds/477437/ |

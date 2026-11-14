@@ -30,14 +30,20 @@ function engine({ withAudio = true } = {}) {
     createStereoPanner() { return new Panner(); }
     createBufferSource() { return new Source(); }
     decodeAudioData(b) { return Promise.resolve(b); }
+    createMediaElementSource() { return new Node(); }
   }
   const manifest = {
     step_wood: { files: ['step_wood_00.mp3', 'step_wood_01.mp3'], gain: .5, loop: false },
     amb_hall: { files: ['amb_hall.mp3'], gain: .3, loop: true },
     amb_pond: { files: ['amb_pond.mp3'], gain: .3, loop: true },
   };
+  class FakeAudio { // thẻ audio của nhạc nền: ghi lại lúc phát và thuộc tính lặp
+    constructor(src) { this.src = src; this.loop = false; this.preload = ''; }
+    play() { log.push(['play', this.src, this.loop]); return Promise.resolve(); }
+  }
   const context = {
     console,
+    Audio: FakeAudio,
     window: withAudio ? { AudioContext: Ctx } : {},
     fetch: async url => ({ ok: true, json: async () => manifest, arrayBuffer: async () => ({ name: url.slice('sounds/'.length) }) }),
   };
@@ -105,4 +111,17 @@ test('server.mjs phục vụ đủ script, âm thanh và manifest mà trang cầ
   const sounds = Object.values(manifest).flatMap(c => c.files).map(f => '/sounds/' + f);
   for (const p of [...pages, ...sounds, '/sounds/manifest.json']) assert.ok(FILES.test(p), `server không phục vụ ${p}`);
   assert.ok(TYPES['.mp3'] && TYPES['.json']);
+});
+
+test('nhạc nền: phát từ lúc mở khoá và lặp; bật/tắt theo cảnh không phát lại; giảm khi có lời chúc', async () => {
+  const { SOUND, log } = engine();
+  SOUND.bed(false); // trước khi mở khoá: không lỗi, không phát
+  assert.deepEqual(log, []);
+  SOUND.unlock(); await new Promise(r => setTimeout(r, 30));
+  assert.deepEqual(log.filter(e => e[0] === 'play'), [['play', 'sounds/nhac_nen.mp3', true]]);
+  log.length = 0;
+  SOUND.bed(false, 1.5); SOUND.bed(true, 1.5); SOUND.duck(true); SOUND.duck(false);
+  await flush();
+  assert.deepEqual(log.filter(e => e[0] === 'fade').map(e => e[1]), [0, .4, .3, 1]);
+  assert.equal(log.filter(e => e[0] === 'play').length, 0);
 });
