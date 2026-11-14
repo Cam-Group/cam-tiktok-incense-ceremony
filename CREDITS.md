@@ -128,6 +128,11 @@ Mẫu thu sẵn lấy từ Wikimedia Commons, đã cắt, lặp vòng hoặc đ�
 
 Ảnh trong `public/assets/` là bản WebP nén từ PNG/JPG gốc, kích thước giữ nguyên: `cwebp -q 86` cho ảnh có alpha, `-q 82` cho ảnh thường, tăng chất lượng với ảnh có độ giống thấp. Bản gốc PNG/JPG đã bị xoá khỏi lịch sử git khi viết lại lịch sử (14/11/2026).
 
-## Xoá file không dùng (14/11/2026)
+## Tiên nữ và file đã xoá (14/11/2026)
 
-Đã xoá 36 file mà game không đọc ở bất kỳ chế độ nào: `crack_00`–`crack_11`, `flood_00`–`flood_08`, `wood_4`, `crane1`, `crane2`, `koi`, `lion` (đều dạng `.webp`) và `fairy1`–`fairy10`. Tiên nữ từng được tải nhưng không bao giờ được vẽ: đoạn vẽ tiên dùng hình vector, nên đã bỏ phần tải ảnh tiên. Nếu cần lại, lấy từ bản sao lưu của chủ dự án.
+| File | Dùng làm | Tên gốc | Tác giả | Giấy phép | Trang gốc |
+|---|---|---|---|---|---|
+| `fairy1.webp` … `fairy10.webp` | Tiên nữ đứng trên mây, cảnh 12. Mỗi cảnh chọn ngẫu nhiên hai ảnh khác nhau | Ảnh do chủ dự án tạo bằng ChatGPT, ngày 12/11/2026 | Chủ dự án (ảnh AI) | Theo điều khoản của OpenAI cho ảnh do người dùng tạo | — |
+
+- Tiên nữ từng được tải nhưng chưa gắn vào hàm vẽ, nên cảnh 12 vẽ tiên bằng code. Từ 14/11/2026, cảnh 12 dùng ảnh tiên thật thay cho hình vẽ.
+- Đã xoá 26 file mà game không đọc: `crack_00`–`crack_11`, `flood_00`–`flood_08`, `wood_4`, `crane1`, `crane2`, `koi`, `lion` (đều là `.webp`). Bản gốc PNG/JPG của chúng đã bị xoá khỏi lịch sử git khi viết lại lịch sử.

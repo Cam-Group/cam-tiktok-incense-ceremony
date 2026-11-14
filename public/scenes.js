@@ -460,7 +460,7 @@ const SCENES = {
           const a = i / others.length * 6.283 + t * .35, x = 360 + Math.cos(a) * 270, y = iy + 250 + Math.sin(a) * 50 + Math.sin(t * 2 + i) * 8;
           hero(p, x, y, .5, t, true); incense(x, y, .5, t + i);
         });
-        drawFairy(110, 470, t, false, FAIRY[0]); drawFairy(610, 470, t, true, FAIRY[1]);
+        const [fa, fb] = fairyPair(sc); drawFairy(110, 470, t, false, fa); drawFairy(610, 470, t, true, fb);
         crown(360, 400, t); heroes(sc, 360, 520, 1.5, t, 420);
         nameTitle(sc, 360, 170, 72, sm(.8, 1.8, u)); bigName('đưa cả ngôi chùa bay lên trời', 360, 224, 28, sm(1.1, 2.1, u));
         flash(1 - sm(3.2, 4, s), '255,244,225'); flash(sm(9.8, 10.5, s), '255,246,200');
