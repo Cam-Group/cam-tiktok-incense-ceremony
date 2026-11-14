@@ -6,7 +6,7 @@ const publicDir = new URL('../../public/', import.meta.url);
 const html = readFileSync(new URL('index.html', publicDir), 'utf8');
 export function createGame({ search = '?ve&username=alice', eventsBase = 'https://backend.example.com/live', speech } = {}) {
   let now = 0, frame, timerId = 0;
-  const timers = new Map(), sources = [], elements = new Map();
+  const timers = new Map(), sources = [], elements = new Map(), images = [];
   const windowEvents = new Map(), documentEvents = new Map();
   const listen = (events, type, callback) => events.set(type, [...(events.get(type) || []), callback]);
   const ctx = new Proxy({
@@ -29,7 +29,7 @@ export function createGame({ search = '?ve&username=alice', eventsBase = 'https:
     matchMedia: () => ({ matches: false }), addEventListener: (type, callback) => listen(windowEvents, type, callback),
     requestAnimationFrame(callback) { frame = callback; },
     MutationObserver: class { observe() {} },
-    Image: class {}, // Không tải tài nguyên; game dùng đường vẽ fallback.
+    Image: class { set src(url) { images.push(url); } }, // Không tải tài nguyên; chỉ ghi lại đường dẫn để test kiểm tra file có tồn tại.
     EventSource: class {
       constructor(url) { this.url = url; this.listeners = new Map(); sources.push(this); }
       addEventListener(type, callback) { this.listeners.set(type, callback); }
@@ -47,6 +47,7 @@ export function createGame({ search = '?ve&username=alice', eventsBase = 'https:
   }
   return {
     sources,
+    images,
     click: id => elements.get(id)?.onclick?.(),
     dispatch: (type, event) => { for (const callback of windowEvents.get(type) || []) callback(event); },
     hide() { context.document.hidden = true; for (const callback of documentEvents.get('visibilitychange') || []) callback(); },

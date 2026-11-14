@@ -589,9 +589,12 @@ const fg = document.createElement('canvas'); fg.width = W; fg.height = H;
 // Ảnh nhân vật theo tư thế. Bắt buộc: person.png (đứng). Tuỳ chọn, có thì tự dùng:
 // person_walk1.png, person_walk2.png (hai nhịp bước), person_bow.png (cúi lạy). Thiếu thì game uốn ảnh đứng để tạo chuyển động.
 const POSE = {}, tinted = new Map(), FAIRY_IMGS = [];
+const POSE_FILES = []; // tư thế tuỳ chọn đã có file: 'walk1', 'walk2', 'bow'. Hiện chưa có ảnh nên không tải, tránh 404. Có ảnh thì thêm tên vào đây
 // Nhân vật có đủ khung hình động (tách từ ảnh động): c_<mã>_<khung>.png, khung 02 bước vào, 03/08 đứng, 04–05 chắp tay, 06–07 cúi lạy, 09–10 đi ngang.
 // dir: hướng nhân vật đi ra sau khi thắp hương (-1 trái, 1 phải), theo đúng hướng trong ảnh động gốc.
 const CHARS = [['L1', -1], ['L2', -1], ['L3', -1], ['L4', -1], ['L5', -1], ['R1', 1], ['R2', 1], ['R3', 1], ['R4', 1], ['R5', 1]].map(([id, dir]) => ({ id, dir, f: {} }));
+// Khung chưa có file (c_L2_02.png): không tải để khỏi báo 404; drawPerson tự dùng khung khác khi thiếu khung 02
+const MISSING_FRAMES = { L2: [2] };
 const charReady = c => c && [3, 4, 5, 6, 7, 8, 9, 10].every(n => c.f[n]);
 const IMG = {}; // ảnh thật cho hiệu ứng: cloud, smoke, spark, petal, paper — thiếu ảnh nào thì vẽ bằng code
 function sprite(pose, col) { // ảnh tư thế đã nhuộm màu áo dài, nhuộm một lần rồi giữ lại
@@ -609,7 +612,7 @@ function sprite(pose, col) { // ảnh tư thế đã nhuộm màu áo dài, nhu�
 if (REAL) {
   // ?v=… để trình duyệt không dùng lại bản lưu tạm của ảnh cũ sau khi thay file
   const load = (src, done) => { const im = new Image(); im.onload = () => done(im); im.src = src + '?v=5'; };
-  CHARS.forEach(c => [2, 3, 4, 5, 6, 7, 8, 9, 10].forEach(n => load(`assets/c_${c.id}_${String(n).padStart(2, '0')}.png`, im => c.f[n] = im)));
+  CHARS.forEach(c => [2, 3, 4, 5, 6, 7, 8, 9, 10].filter(n => !(MISSING_FRAMES[c.id] || []).includes(n)).forEach(n => load(`assets/c_${c.id}_${String(n).padStart(2, '0')}.png`, im => c.f[n] = im)));
   ['cloud.png', 'spark.png', 'petal.png', 'paper.jpg'].forEach(f => load('assets/' + f, im => IMG[f.split('.')[0]] = im));
   load('assets/smoke.png', im => { // khói trong ảnh gốc ám xanh: khử bớt màu cho ra khói hương trắng
     const cv = document.createElement('canvas'); cv.width = im.width; cv.height = im.height;
@@ -619,7 +622,7 @@ if (REAL) {
     IMG.smoke = cv;
   });
   load('assets/person.png', im => POSE.stand = im);
-  ['walk1', 'walk2', 'bow'].forEach(n => load(`assets/person_${n}.png`, im => POSE[n] = im));
+  POSE_FILES.forEach(n => load(`assets/person_${n}.png`, im => POSE[n] = im));
   for (let i = 1; i <= 10; i++) load(`assets/fairy${i}.png`, im => { // tiên nữ: fairy1.png … fairy10.png, có bao nhiêu dùng bấy nhiêu
     const cv = document.createElement('canvas'); cv.width = im.width; cv.height = im.height;
     const c = cv.getContext('2d'); c.drawImage(im, 0, 0);
