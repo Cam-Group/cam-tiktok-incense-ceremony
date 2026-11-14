@@ -1,6 +1,6 @@
-# Tạo lại toàn bộ âm thanh của dự án từ file gốc trên Freesound (CC0 và CC BY, xem CREDITS.md).
+# Tạo lại toàn bộ âm thanh của dự án từ file gốc (Freesound CC0 và CC BY; nhac_nen do chủ dự án cung cấp, xem CREDITS.md).
 # Dùng: AUDIO_SRC=thư_mục_gốc python tools/make_audio.py  -> ghi public/sounds/*.mp3 và manifest.json
-# AUDIO_SRC có một thư mục con cho mỗi id Freesound: AUDIO_SRC/<id>/<file gốc>. Cách tải: CREDITS.md.
+# AUDIO_SRC có một thư mục con cho mỗi id Freesound (AUDIO_SRC/<id>/<file gốc>) và AUDIO_SRC/nhac_nen/ cho file tự cung cấp. Cách tải: CREDITS.md.
 # Cần: numpy, av (PyAV).
 import glob, json, os
 from fractions import Fraction
@@ -33,7 +33,7 @@ SPEC = {
     'boom': (0.8, -16.8, False, [('boom', 826058, 4)]),
     'bow': (0.5, -18.3, False, [('bow_00', 493418, 1.2), ('bow_01', 493415, 1.2)]),
     'candle': (0.25, -14.2, False, [('candle_00', 423810, 1.8), ('candle_01', 237391, 1.8), ('candle_02', 742836, 1.5)]),
-    'chant_hall': (0.35, -22.5, True, [('chant_hall', 383167, 60)]),
+    'nhac_nen': (0.35, -22.5, True, [('nhac_nen', 'nhac_nen', 60)]),
     'chime': (0.4, -14.6, False, [('chime_00', 361427, 4), ('chime_01', 398494, 5), ('chime_02', 477437, 6)]),
     'collapse': (0.9, -24.2, False, [('collapse_00', 721600, 6)]),
     'crack': (0.6, -30.7, False, [('crack_00', 669453, 1.5), ('crack_01', 183453, 1.2)]),

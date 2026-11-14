@@ -68,7 +68,7 @@ Giọng đọc **mặc định bật và không có nút tắt**. Trình duyệt
 - Mở khoá bằng cú chạm đầu tiên, giống giọng đọc. Không có nút tắt.
 - Không có Web Audio hoặc không tải được file thì game vẫn chạy, chỉ im lặng.
 - Chỉnh âm: đổi `gain`, `loop` hoặc danh sách file trong `manifest.json`; đổi giây phát trong `sound-cues.js`.
-- `tools/make_audio.py` tạo lại toàn bộ `public/sounds/` từ file gốc trên Freesound. Cần `AUDIO_SRC` trỏ tới thư mục có một thư mục con cho mỗi id Freesound (cách tải và danh sách id trong CREDITS.md), và cài `pip install numpy av`.
+- `tools/make_audio.py` tạo lại toàn bộ `public/sounds/` từ file gốc: Freesound và một file của chủ dự án. Cần `AUDIO_SRC` trỏ tới thư mục có một thư mục con cho mỗi id Freesound và một thư mục `nhac_nen/` (cách tải và danh sách trong CREDITS.md), và cài `pip install numpy av`.
 
 ## Kiểm thử và nghiệm thu
 

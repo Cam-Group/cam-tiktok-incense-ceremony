@@ -2,11 +2,11 @@
 // amb: [giây, [các lớp nền]]: đổi nền khi tới đúng lúc (giây tính từ đầu cảnh).
 // cues: [giây, tên âm, tuỳ chọn]: phát một âm khi tới đúng lúc. Chuyển cảnh (cắt, sương mù) do scenes.js tự phát.
 const SCENE_SOUND = {
-  1: { amb: [[0, ['amb_hall', 'chant_hall']]], cues: [[.1, 'incense'], [.3, 'chime', { gain: .6 }]] },
-  2: { amb: [[0, ['amb_hall', 'chant_hall']]], cues: [[0, 'bell'], [.3, 'creak'], [.4, 'radiance'], [.8, 'gold_dust']] },
-  3: { amb: [[0, ['amb_hall', 'chant_hall']]], cues: [[0, 'fog'], [.3, 'incense'], [1.2, 'candle'], [2, 'candle'], [3.1, 'candle'], [4.2, 'candle'], [5.5, 'chime']] },
+  1: { amb: [[0, ['amb_hall', 'nhac_nen']]], cues: [[.1, 'incense'], [.3, 'chime', { gain: .6 }]] },
+  2: { amb: [[0, ['amb_hall', 'nhac_nen']]], cues: [[0, 'bell'], [.3, 'creak'], [.4, 'radiance'], [.8, 'gold_dust']] },
+  3: { amb: [[0, ['amb_hall', 'nhac_nen']]], cues: [[0, 'fog'], [.3, 'incense'], [1.2, 'candle'], [2, 'candle'], [3.1, 'candle'], [4.2, 'candle'], [5.5, 'chime']] },
   4: {
-    amb: [[0, ['amb_hall', 'chant_hall']], [2.6, ['amb_pond', 'amb_frogs']]],
+    amb: [[0, ['amb_hall', 'nhac_nen']], [2.6, ['amb_pond', 'amb_frogs']]],
     cues: [[.2, 'crack'], [.7, 'crack'], [1, 'creak'], [1.2, 'flood_rise'], [1.6, 'drip'], [2.1, 'drip'], [2.6, 'splash'], [4.5, 'splash'], [6.8, 'splash'], [8.9, 'splash']],
   },
   5: {
