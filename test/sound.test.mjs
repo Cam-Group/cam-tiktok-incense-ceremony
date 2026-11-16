@@ -114,6 +114,8 @@ test('server.mjs phục vụ đủ script, âm thanh và manifest mà trang cầ
 });
 
 test('nhạc nền: phát từ lúc mở khoá và lặp; bật/tắt theo cảnh không phát lại; giảm khi có lời chúc', async () => {
+  assert.ok(readdirSync(new URL('sounds/', pub)).includes('nhac_nen.mp3'), 'thiếu nhạc nền trên đĩa');
+  assert.ok(FILES.test('/sounds/nhac_nen.mp3'), 'server không phục vụ nhạc nền');
   const { SOUND, log } = engine();
   SOUND.bed(false); // trước khi mở khoá: không lỗi, không phát
   assert.deepEqual(log, []);
@@ -122,6 +124,6 @@ test('nhạc nền: phát từ lúc mở khoá và lặp; bật/tắt theo cản
   log.length = 0;
   SOUND.bed(false, 1.5); SOUND.bed(true, 1.5); SOUND.duck(true); SOUND.duck(false);
   await flush();
-  assert.deepEqual(log.filter(e => e[0] === 'fade').map(e => e[1]), [0, .4, .3, 1]);
+  assert.deepEqual(log.filter(e => e[0] === 'fade').map(e => e[1]), [0, .475, .3, 1]);
   assert.equal(log.filter(e => e[0] === 'play').length, 0);
 });

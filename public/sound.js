@@ -81,7 +81,7 @@ const SOUND = (() => {
   }
   // Nhạc nền: một file dài, phát từ lúc mở khoá và lặp khi hết. Phát qua thẻ audio nên không giải mã cả file vào bộ nhớ.
   // bed(on): bật/tắt theo nơi của cảnh. Khi tắt, nhạc vẫn chạy để bật lại đúng chỗ đang dở. duck(on): giảm nhạc khi có lời chúc.
-  const BED = .4, DUCK = .3; // hệ số âm lượng của nhạc nền, và khi bị giảm
+  const BED = .475, DUCK = .3; // hệ số âm lượng của nhạc nền (đã đo: bằng mức bản cũ trên cả file, xem tools/make_audio.py), và khi bị giảm
   const bedEl = typeof Audio === 'function' ? Object.assign(new Audio('sounds/nhac_nen.mp3'), { loop: true, preload: 'auto' }) : null;
   let bedOn = true, bedGain = null, duckGain = null;
   function initBed() { // nối thẻ audio vào Web Audio, một lần; lỗi thì chỉ mất nhạc nền, game vẫn chạy

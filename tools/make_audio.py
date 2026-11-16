@@ -2,7 +2,7 @@
 # Dùng: AUDIO_SRC=thư_mục_gốc python tools/make_audio.py  -> ghi public/sounds/*.mp3 và manifest.json
 # AUDIO_SRC có một thư mục con cho mỗi id Freesound (AUDIO_SRC/<id>/<file gốc>) và AUDIO_SRC/nhac_nen/ cho file tự cung cấp. Cách tải: CREDITS.md.
 # Cần: numpy, av (PyAV).
-import glob, json, os, shutil
+import glob, json, os
 from fractions import Fraction
 import numpy as np
 import av
@@ -169,7 +169,8 @@ def build():
         total += size
         man[cue] = {'files': files, 'gain': gain, 'loop': loops}
         print(f"{cue:16s} gain {gain_old:.2f}->{gain:.3f} loop={loops!s:5s} dur={min(secs):5.2f}-{max(secs):5.2f}s size={size // 1024}KB")
-    shutil.copyfile(source('nhac_nen'), os.path.join(OUT, 'nhac_nen.mp3'))  # nhạc nền: bản gốc, không cắt, phát liên tục
+    # nhạc nền: bản đầy đủ, mã hoá mono 48 kbps. Giảm 4 dB để không méo (đỉnh gốc vượt 0 dBFS); sound.js bù bằng BED
+    mp3(os.path.join(OUT, 'nhac_nen.mp3'), load(source('nhac_nen')) * .625, 48000)
     json.dump(man, open(os.path.join(OUT, 'manifest.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print('cues', len(man), 'files', sum(len(m['files']) for m in man.values()), 'total KB', total // 1024)
 
